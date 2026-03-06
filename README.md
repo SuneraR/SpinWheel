@@ -1,8 +1,4 @@
 
-  # Create Design
-
-  This is a code bundle for Create Design. The original project is available at https://www.figma.com/design/xxIipsuV3r4S7Gk54jy7Cg/Create-Design.
-
   ## Running the code
 
   Run `npm i` to install the dependencies.
