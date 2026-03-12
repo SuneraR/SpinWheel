@@ -132,7 +132,7 @@ export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps
     <div ref={containerRef} className="relative w-full mx-auto flex flex-col items-center">
       {/* Pointer at top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <div className="w-0 h-0 border-l-[16px] md:border-l-[22px] xl:border-l-[30px] 2xl:border-l-[40px] border-l-transparent border-r-[16px] md:border-r-[22px] xl:border-r-[30px] 2xl:border-r-[40px] border-r-transparent border-t-[26px] md:border-t-[34px] xl:border-t-[48px] 2xl:border-t-[64px] border-t-red-500 drop-shadow-lg"></div>
+        <div className="w-0 h-0 border-l-[1rem] md:border-l-[1.375rem] xl:border-l-[1.875rem] 2xl:border-l-[2.5rem] border-l-transparent border-r-[1rem] md:border-r-[1.375rem] xl:border-r-[1.875rem] 2xl:border-r-[2.5rem] border-r-transparent border-t-[1.625rem] md:border-t-[2.125rem] xl:border-t-[3rem] 2xl:border-t-[4rem] border-t-red-500 drop-shadow-lg"></div>
       </div>
 
       <motion.canvas

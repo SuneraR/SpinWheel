@@ -95,13 +95,13 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
           const theme = COLOR_THEMES[index % COLOR_THEMES.length];
           const base = 'w-full rounded-2xl py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-7 px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10 text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold shadow-lg transition-colors duration-200 text-left border';
           const state = isCorrect
-            ? 'bg-green-50 border-green-500 text-green-700 ring-2 ring-green-300 shadow-[0_0_18px_rgba(74,222,128,0.45)] animate-[pulse_1.2s_ease-in-out_infinite]'
+            ? 'bg-green-500 border-green-600 text-white ring-4 ring-green-300 shadow-[0_0_28px_rgba(74,222,128,0.75)] scale-[1.02] animate-[pulse_1.2s_ease-in-out_infinite]'
             : isSelected
               ? 'bg-red-50 border-red-400 text-red-700'
               : `${theme.bg} ${theme.text} ${theme.border} ${theme.hover}`;
           const chipBase = 'mr-3 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 rounded-full font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl';
           const chipState = isCorrect
-            ? 'bg-green-100 text-green-700'
+            ? 'bg-green-700 text-white'
             : isSelected
               ? 'bg-red-100 text-red-700'
               : theme.chip;

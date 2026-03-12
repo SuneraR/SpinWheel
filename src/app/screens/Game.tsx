@@ -61,8 +61,8 @@ export default function Game() {
   }, []);
 
   useEffect(() => {
-    correctSoundRef.current = new Audio('/src/sounds/correct.mp3');
-    wrongSoundRef.current = new Audio('/src/sounds/wrong.mp3');
+    correctSoundRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/correct.mp3`);
+    wrongSoundRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/wrong.mp3`);
     return () => {
       correctSoundRef.current = null;
       wrongSoundRef.current = null;
@@ -85,7 +85,7 @@ export default function Game() {
         correctSoundRef.current.play().catch(() => {});
       }
       setCorrectAnswers(prev => prev + 1);
-      setGameState('correct');
+      window.setTimeout(() => setGameState('correct'), 1000);
     } else {
       if (wrongSoundRef.current) {
         wrongSoundRef.current.currentTime = 0;

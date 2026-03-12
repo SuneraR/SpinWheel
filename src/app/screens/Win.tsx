@@ -32,7 +32,7 @@ export default function Win() {
   }, []);
 
   useEffect(() => {
-    winSoundRef.current = new Audio('/src/sounds/win.mp3');
+    winSoundRef.current = new Audio(`${import.meta.env.BASE_URL}sounds/win.mp3`);
     winSoundRef.current.volume = 0.9;
     winSoundRef.current.play().catch(() => {});
     return () => {

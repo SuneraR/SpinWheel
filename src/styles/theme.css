@@ -137,6 +137,23 @@
     font-size: var(--font-size);
   }
 
+  /* ── Scale everything up on large / 4K displays ───────────────────────────
+     Because every Tailwind sizing utility (text-*, w-*, p-*, max-w-*, etc.)
+     is rem-based, bumping the root font-size is the single change that makes
+     ALL UI elements – fonts, buttons, icons, spacing, cards – proportionally
+     larger without touching individual components.
+     Media-query rem values always resolve against the browser default (16 px),
+     so these thresholds are stable regardless of what we set below.       */
+  @media (min-width: 120rem) {   /* ≥ 1920 px  (Full-HD+)  */
+    html { font-size: 18px; }
+  }
+  @media (min-width: 160rem) {   /* ≥ 2560 px  (QHD / 2K) */
+    html { font-size: 22px; }
+  }
+  @media (min-width: 240rem) {   /* ≥ 3840 px  (4K UHD)   */
+    html { font-size: 28px; }
+  }
+
   h1 {
     font-size: var(--text-2xl);
     font-weight: var(--font-weight-medium);

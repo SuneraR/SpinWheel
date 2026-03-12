@@ -2,3 +2,12 @@
 @source '../**/*.{js,ts,jsx,tsx}';
 
 @import 'tw-animate-css';
+
+/* ─── Custom breakpoints for large / 4K displays ─────────────────────────── */
+/* rem values here are resolved against the browser default (16 px), not the  */
+/* html font-size, so these pixel equivalents are exact regardless of scaling. */
+@theme {
+  --breakpoint-3xl: 120rem;   /* 1920 px – Full-HD+ / large desktop  */
+  --breakpoint-4xl: 160rem;   /* 2560 px – QHD / 2K                  */
+  --breakpoint-5xl: 240rem;   /* 3840 px – 4K UHD                    */
+}
