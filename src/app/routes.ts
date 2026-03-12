@@ -23,5 +23,4 @@ export const router = createBrowserRouter(
       Component: Win,
     },
   ],
-  { basename: "/SpinWheel/" }
 );
