@@ -23,4 +23,7 @@ export const router = createBrowserRouter(
       Component: Win,
     },
   ],
+  {
+    basename: import.meta.env.BASE_URL,
+  },
 );
