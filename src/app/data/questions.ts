@@ -183,11 +183,11 @@ export const QUESTIONS_BY_SEGMENT: Record<number, Question[]> = {
     },
   ],
   9: [
-    {
-      question: 'What is a carbon footprint?',
-      answers: ['Land area covered by forests', 'Amount of greenhouse gases emitted by an activity or person', 'Size of an industrial building', 'Air quality index'],
-      correct: 1,
-    },
+    // {
+    //   question: 'What is a carbon footprint?',
+    //   answers: ['Land area covered by forests', 'Amount of greenhouse gases emitted by an activity or person', 'Size of an industrial building', 'Air quality index'],
+    //   correct: 1,
+    // },
     {
       question: 'Climate change is expected to increase the frequency and intensity of:',
       answers: ['Earthquakes', 'Extreme weather events', 'Solar eclipses', 'Volcanic eruptions'],
