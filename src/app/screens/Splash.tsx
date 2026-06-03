@@ -56,6 +56,7 @@ export default function Splash() {
               key={i}
               className="w-3 h-3 bg-white rounded-full"
               initial={{ opacity: 0, scale: 0 }}
+              
               animate={{ opacity: [0, 1, 0], scale: [0.5, 1, 0.5] }}
               transition={{
                 duration: 1,

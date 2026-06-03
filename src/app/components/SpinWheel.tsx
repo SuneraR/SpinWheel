@@ -1,24 +1,20 @@
-import { useRef, useEffect, useState, useLayoutEffect } from 'react';
+import { useRef, useEffect, useState, useLayoutEffect, useMemo } from 'react';
 import { motion } from 'motion/react';
+import { QUESTIONS_BY_SEGMENT } from '../data/questions';
 
 interface SpinWheelProps {
   onSpinComplete: (segment: number) => void;
   isSpinning: boolean;
 }
 
-const SEGMENTS = 8;
-const COLORS = [
-  '#FF6B6B', // red
-  '#4ECDC4', // teal
-  '#FFE66D', // yellow
-  '#A8E6CF', // mint
-  '#FF8B94', // pink
-  '#95E1D3', // cyan
-  '#FFA07A', // salmon
-  '#DDA0DD', // plum
-];
-
 export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps) {
+  // Derive number of segments from the questions database so the wheel adapts
+  const SEGMENTS = useMemo(() => Object.keys(QUESTIONS_BY_SEGMENT).length || 8, []);
+  // Generate visually distinct colors around the hue wheel
+  const COLORS = useMemo(() =>
+    Array.from({ length: SEGMENTS }, (_, i) => `hsl(${Math.round((i * 360) / SEGMENTS)}, 65%, 60%)`),
+    [SEGMENTS]
+  );
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(320);
