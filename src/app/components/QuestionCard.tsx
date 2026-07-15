@@ -1,4 +1,5 @@
 import { motion } from 'motion/react';
+import { useEffect, useRef, useState } from 'react';
 
 interface QuestionCardProps {
   question: string;
@@ -74,32 +75,71 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
     onAnswer(index);
   };
 
+  const wrapperRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
+  const [scale, setScale] = useState(1);
+
+  useEffect(() => {
+    const wrapper = wrapperRef.current;
+    const content = contentRef.current;
+    if (!wrapper || !content) return;
+
+    function fit() {
+      const maxH = Math.floor(window.innerHeight * 0.86);
+      wrapper.style.height = `${maxH}px`;
+
+      // Reset transform to measure natural height
+      content.style.transform = 'none';
+      const contentH = content.scrollHeight;
+
+      let s = 1;
+      if (contentH > maxH) {
+        s = Math.max(0.55, maxH / contentH);
+      }
+
+      content.style.transform = `scale(${s})`;
+      content.style.transformOrigin = 'top center';
+      setScale(s);
+    }
+
+    fit();
+    const ro = new ResizeObserver(fit);
+    ro.observe(content);
+    window.addEventListener('resize', fit);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener('resize', fit);
+    };
+  }, [question, answers]);
+
   return (
     <motion.div
+      ref={wrapperRef}
       initial={{ scale: 0.8, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      className="w-full max-w-4xl xl:max-w-5xl 2xl:max-w-6xl"
+      className="w-full max-w-4xl xl:max-w-5xl 2xl:max-w-6xl flex items-center justify-center"
     >
-      {/* Question */}
-      <div className="bg-white rounded-3xl p-4 md:p-6 lg:p-7 xl:p-8 2xl:p-10 shadow-2xl mb-3 md:mb-4 xl:mb-5">
-        <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-gray-800 text-center leading-snug">
-          {question}
-        </h2>
-      </div>
+      <div ref={contentRef} className="w-full">
+        {/* Question */}
+        <div className="bg-white rounded-3xl p-4 md:p-6 lg:p-7 xl:p-8 2xl:p-10 shadow-2xl mb-3 md:mb-4 xl:mb-5">
+          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-gray-800 text-center leading-snug break-words whitespace-normal">
+            {question}
+          </h2>
+        </div>
 
       {/* Answer options */}
       <div className="space-y-2 md:space-y-3 xl:space-y-4">
-        {answers.map((answer, index) => {
+          {answers.map((answer, index) => {
           const isCorrect = revealCorrect && index === correctAnswer;
           const isSelected = revealCorrect && selectedAnswer === index && !isCorrect;
           const theme = COLOR_THEMES[index % COLOR_THEMES.length];
-          const base = 'w-full rounded-2xl py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-7 px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10 text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold shadow-lg transition-colors duration-200 text-left border';
+          const base = 'w-full rounded-2xl py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-7 px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10 text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold shadow-lg transition-colors duration-200 text-left border flex items-center gap-4';
           const state = isCorrect
             ? 'bg-green-500 border-green-600 text-white ring-4 ring-green-300 shadow-[0_0_28px_rgba(74,222,128,0.75)] scale-[1.02] animate-[pulse_1.2s_ease-in-out_infinite]'
             : isSelected
               ? 'bg-red-50 border-red-400 text-red-700'
               : `${theme.bg} ${theme.text} ${theme.border} ${theme.hover}`;
-          const chipBase = 'mr-3 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 rounded-full font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl';
+          const chipBase = 'flex-shrink-0 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 rounded-full font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl';
           const chipState = isCorrect
             ? 'bg-green-700 text-white'
             : isSelected
@@ -116,10 +156,11 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
               className={`${base} ${state}`}
             >
               <span className={`${chipBase} ${chipState}`}>{String.fromCharCode(65 + index)}</span>
-              {answer}
+              <div className="flex-1 break-words whitespace-normal text-left">{answer}</div>
             </motion.button>
           );
         })}
+      </div>
       </div>
     </motion.div>
   );

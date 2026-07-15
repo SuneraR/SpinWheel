@@ -10,11 +10,27 @@ interface SpinWheelProps {
 export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps) {
   // Derive number of segments from the questions database so the wheel adapts
   const SEGMENTS = useMemo(() => Object.keys(QUESTIONS_BY_SEGMENT).length || 8, []);
-  // Generate visually distinct colors around the hue wheel
-  const COLORS = useMemo(() =>
-    Array.from({ length: SEGMENTS }, (_, i) => `hsl(${Math.round((i * 360) / SEGMENTS)}, 65%, 60%)`),
-    [SEGMENTS]
-  );
+  // Generate visually distinct colors; prefer theme chart variables when available
+  const COLORS = useMemo(() => {
+    try {
+      if (typeof window !== 'undefined') {
+        const styles = getComputedStyle(document.documentElement);
+        const themeCols = [
+          styles.getPropertyValue('--chart-1')?.trim(),
+          styles.getPropertyValue('--chart-2')?.trim(),
+          styles.getPropertyValue('--chart-3')?.trim(),
+          styles.getPropertyValue('--chart-4')?.trim(),
+          styles.getPropertyValue('--chart-5')?.trim(),
+        ].filter(Boolean) as string[];
+        if (themeCols.length) {
+          return Array.from({ length: SEGMENTS }, (_, i) => themeCols[i % themeCols.length]);
+        }
+      }
+    } catch (e) {
+      // ignore and fall back
+    }
+    return Array.from({ length: SEGMENTS }, (_, i) => `hsl(${Math.round((i * 360) / SEGMENTS)}, 65%, 60%)`);
+  }, [SEGMENTS]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(320);
@@ -128,7 +144,10 @@ export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps
     <div ref={containerRef} className="relative w-full mx-auto flex flex-col items-center">
       {/* Pointer at top */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10">
-        <div className="w-0 h-0 border-l-[1rem] md:border-l-[1.375rem] xl:border-l-[1.875rem] 2xl:border-l-[2.5rem] border-l-transparent border-r-[1rem] md:border-r-[1.375rem] xl:border-r-[1.875rem] 2xl:border-r-[2.5rem] border-r-transparent border-t-[1.625rem] md:border-t-[2.125rem] xl:border-t-[3rem] 2xl:border-t-[4rem] border-t-red-500 drop-shadow-lg"></div>
+        <div
+          className="w-0 h-0 border-l-[1rem] md:border-l-[1.375rem] xl:border-l-[1.875rem] 2xl:border-l-[2.5rem] border-l-transparent border-r-[1rem] md:border-r-[1.375rem] xl:border-r-[1.875rem] 2xl:border-r-[2.5rem] border-r-transparent border-t-[1.625rem] md:border-t-[2.125rem] xl:border-t-[3rem] 2xl:border-t-[4rem] drop-shadow-lg"
+          style={{ borderTopColor: 'var(--accent)' }}
+        />
       </div>
 
       <motion.canvas

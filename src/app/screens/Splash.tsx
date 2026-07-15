@@ -16,7 +16,10 @@ export default function Splash() {
 
   return (
     <motion.div
-      className="h-screen overflow-hidden flex items-center justify-center bg-gradient-to-br from-purple-500 via-pink-500 to-orange-400 px-4 py-8 md:py-12"
+      className="h-screen overflow-hidden flex items-center justify-center px-4 py-8 md:py-12"
+      style={{
+        background: `radial-gradient(900px circle at 20% 20%, var(--primary) 0%, var(--accent) 35%, transparent 60%), linear-gradient(180deg, var(--background), rgba(0,0,0,0.3))`,
+      }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
@@ -25,7 +28,8 @@ export default function Splash() {
         {/* Trophy */}
         <div className="mb-8 flex justify-center">
           <motion.div
-            className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 bg-white rounded-full flex items-center justify-center shadow-2xl"
+            className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full flex items-center justify-center shadow-2xl"
+            style={{ background: 'var(--card)' }}
             initial={{ scale: 0, rotate: -180 }}
             animate={{ scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 200, damping: 15, delay: 0.2 }}
@@ -34,7 +38,9 @@ export default function Splash() {
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <Trophy className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 text-purple-500" />
+              <div style={{ color: 'var(--primary)' }}>
+                <Trophy className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14" />
+              </div>
             </motion.div>
           </motion.div>
         </div>

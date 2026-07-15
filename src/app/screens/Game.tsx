@@ -8,13 +8,30 @@ import Modal from '../components/Modal';
 import { type Question, QUESTIONS_BY_SEGMENT } from '../data/questions';
 
 
-const shuffleQuestions = (questions: Question[]) => {
-  const arr = [...questions];
-  for (let i = arr.length - 1; i > 0; i--) {
+const shuffleArray = <T,>(arr: T[]) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
+    [a[i], a[j]] = [a[j], a[i]];
   }
-  return arr;
+  return a;
+};
+
+const shuffleQuestions = (questions: Question[]) => {
+  // Shuffle questions order and also shuffle each question's answers while
+  // preserving which answer is correct by remapping the correct index.
+  const qShuffled = shuffleArray(questions).map((q) => {
+    const indices = q.answers.map((_, idx) => idx);
+    const shuffledIdx = shuffleArray(indices);
+    const newAnswers = shuffledIdx.map((i) => q.answers[i]);
+    const newCorrect = shuffledIdx.findIndex((origIdx) => origIdx === q.correct);
+    return {
+      question: q.question,
+      answers: newAnswers,
+      correct: newCorrect,
+    } as Question;
+  });
+  return qShuffled;
 };
 
 type GameState = 'spinning' | 'question' | 'correct' | 'wrong' | 'gameover';
@@ -151,7 +168,7 @@ export default function Game() {
   const progressTotal = Math.max(totalQuestions, 1);
 
   return (
-    <div className="h-screen overflow-hidden bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 flex flex-col items-center justify-center px-4 py-4 md:px-8 md:py-5 lg:px-12 lg:py-6">
+    <div className="h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:px-8 md:py-5 lg:px-12 lg:py-6 bg-background text-foreground">
       <div className="w-full flex flex-col gap-5 items-center max-w-7xl">
       {/* Progress bar */}
       {selectedSegment && (
@@ -174,10 +191,13 @@ export default function Game() {
               </div>
             </div>
           </div>
-          <div className="h-3 xl:h-4 2xl:h-5 bg-white/30 rounded-full overflow-hidden">
+          <div className="h-3 xl:h-4 2xl:h-5 bg-white/10 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-green-400 to-green-600 transition-all duration-500"
-              style={{ width: `${((currentQuestionIndex + 1) / progressTotal) * 100}%` }}
+              className="h-full transition-all duration-500"
+              style={{
+                width: `${((currentQuestionIndex + 1) / progressTotal) * 100}%`,
+                background: 'linear-gradient(90deg, var(--chart-1), var(--chart-2))',
+              }}
             />
           </div>
         </div>
@@ -199,9 +219,8 @@ export default function Game() {
               <div className="inline-flex">
                 <motion.button
                   onClick={handleSpinClick}
-                  className="mt-6 md:mt-8 bg-white text-purple-600 rounded-full py-3 sm:py-3.5 md:py-4 lg:py-5 xl:py-6 2xl:py-8 px-8 sm:px-10 md:px-12 lg:px-14 xl:px-16 2xl:px-20 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold shadow-2xl"
-                  animate={{ color: SPIN_COLORS }}
-                  transition={{ duration: 2.4, repeat: Infinity, repeatType: 'mirror', ease: 'easeInOut' }}
+                  className="mt-6 md:mt-8 rounded-full py-3 sm:py-3.5 md:py-4 lg:py-5 xl:py-6 2xl:py-8 px-8 sm:px-10 md:px-12 lg:px-14 xl:px-16 2xl:px-20 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold shadow-2xl"
+                  style={{ background: 'var(--primary)', color: 'var(--primary-foreground)' }}
                   whileHover={{ scale: 1.08 }}
                   whileTap={{ scale: 0.96 }}
                 >
