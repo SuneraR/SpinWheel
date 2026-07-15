@@ -24,6 +24,12 @@ export const router = createBrowserRouter(
     },
   ],
   {
-    basename: import.meta.env.BASE_URL,
+    // react-router's `basename` must start with '/' to match URLs.
+    // Vite may set `import.meta.env.BASE_URL` to a relative value like './'
+    // when `base` is './'. Normalize it so we pass '/' in that case.
+    basename: ((): string => {
+      const b = import.meta.env.BASE_URL ?? '/';
+      return typeof b === 'string' && b.startsWith('/') ? b : '/';
+    })(),
   },
 );
