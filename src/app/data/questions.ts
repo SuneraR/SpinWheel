@@ -83,7 +83,7 @@ export const QUESTIONS_BY_SEGMENT: Record<number, Question[]> = {
       correct: 2,
     },
     {
-      question: 'මිනිසාට ලභීතිකාව බෝකරන ප්‍රධානම සත්වයා වන්නේ,',
+      question: 'මිනිසාට ජලභීතිකාව බෝකරන ප්‍රධානම සත්වයා වන්නේ,',
       answers: [
         'බල්ලා',
         'වඳුරා',
