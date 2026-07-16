@@ -33,17 +33,33 @@ const shuffleQuestions = (questions: Question[]) => {
   return qShuffled;
 };
 
+// A player can spin at most twice: the guaranteed first spin, plus a bonus
+// second spin that is only unlocked by answering both first-spin questions
+// correctly (see handleContinue below).
 const MAX_SPINS = 2;
 
-type GameState = 'spinning' | 'question' | 'correct' | 'wrong';
+// 'turnComplete' is the terminal state for players who never earn a second
+// chance - they missed a question on the very first spin. It's shown right
+// before we reload the page for the next player.
+//
+// Players who DO reach the bonus (second) spin never see 'turnComplete' -
+// once they're on their second spin, however it ends (right or wrong),
+// they're routed to the /win results screen instead. See handleContinue.
+type GameState = 'spinning' | 'question' | 'correct' | 'wrong' | 'turnComplete';
 
 export default function Game() {
   const navigate = useNavigate();
   const [gameState, setGameState] = useState<GameState>('spinning');
   const [isSpinning, setIsSpinning] = useState(false);
   const [selectedSegment, setSelectedSegment] = useState<number | null>(null);
+  // Segments already used this session - excluded from future spins so the
+  // second spin can never land back on the first spin's segment.
   const [usedSegments, setUsedSegments] = useState<number[]>([]);
   const [spinCount, setSpinCount] = useState(0);
+  // Whether the player answered both first-spin questions correctly and
+  // therefore unlocked the bonus second spin. Tracked explicitly (rather
+  // than inferred) so it's easy to surface in the UI and reason about.
+  const [earnedSecondSpin, setEarnedSecondSpin] = useState(false);
   const [currentQuestions, setCurrentQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -62,36 +78,50 @@ export default function Game() {
     };
   }, []);
 
+  // Once the turn is complete, show the message for 3 seconds, then hard
+  // refresh the browser. A full reload clears all React state, guaranteeing
+  // a clean slate for the next player (spinCount, usedSegments, answers, etc).
+  useEffect(() => {
+    if (gameState !== 'turnComplete') return;
+    const timer = setTimeout(() => {
+      window.location.reload();
+    }, 3000);
+    return () => clearTimeout(timer);
+  }, [gameState]);
+
   const handleSpinClick = () => {
-    if (spinCount >= MAX_SPINS || isSpinning) return;
+    // Guard against spinning once the turn has ended or once both spins
+    // have already been used, in addition to the button not being rendered
+    // in those states.
+    if (spinCount >= MAX_SPINS || isSpinning || gameState === 'turnComplete') return;
     setIsSpinning(true);
   };
 
   const handleSpinComplete = (segment: number) => {
-  setIsSpinning(false);
-  setSelectedSegment(segment);
-  setUsedSegments((prev) => (prev.includes(segment) ? prev : [...prev, segment]));
-  setSpinCount((prev) => prev + 1);
+    setIsSpinning(false);
+    setSelectedSegment(segment);
+    setUsedSegments((prev) => (prev.includes(segment) ? prev : [...prev, segment]));
+    setSpinCount((prev) => prev + 1);
 
-  const questionsForSegment = QUESTIONS_BY_SEGMENT[segment];
+    const questionsForSegment = QUESTIONS_BY_SEGMENT[segment];
 
-  // Defensive check: if this segment has no questions, log it loudly instead
-  // of silently rendering a blank/broken screen.
-  if (!questionsForSegment || questionsForSegment.length === 0) {
-    console.error(
-      `[Game] No questions found for segment ${segment}. Available keys:`,
-      Object.keys(QUESTIONS_BY_SEGMENT)
-    );
-  }
+    // Defensive check: if this segment has no questions, log it loudly instead
+    // of silently rendering a blank/broken screen.
+    if (!questionsForSegment || questionsForSegment.length === 0) {
+      console.error(
+        `[Game] No questions found for segment ${segment}. Available keys:`,
+        Object.keys(QUESTIONS_BY_SEGMENT)
+      );
+    }
 
-  setCurrentQuestions(shuffleQuestions(questionsForSegment || []));
-  setCurrentQuestionIndex(0);
-  setSelectedAnswer(null);
-  setRevealAnswer(false);
-  setTimeout(() => {
-    setGameState('question');
-  }, 500);
-};
+    setCurrentQuestions(shuffleQuestions(questionsForSegment || []));
+    setCurrentQuestionIndex(0);
+    setSelectedAnswer(null);
+    setRevealAnswer(false);
+    setTimeout(() => {
+      setGameState('question');
+    }, 500);
+  };
 
   const handleAnswer = (selectedIndex: number) => {
     if (!currentQuestion) return;
@@ -116,24 +146,50 @@ export default function Game() {
     }
   };
 
-  // Sends the player's final tally to the /win screen. Uses functional
-  // updates' latest values via closure - correctAnswers/wrongAnswers are
-  // already up to date by the time this runs (called after setGameState).
-  const finishSession = (finalCorrect: number, finalWrong: number) => {
-    const total = finalCorrect + finalWrong;
+  // Ends the player's turn WITHOUT a Win screen: used only when the player
+  // never made it past the first spin, so there's nothing to celebrate yet.
+  // Shows the "preparing for next player" message, then a page reload
+  // (handled by the useEffect above) resets everything.
+  const endTurn = () => {
+    setGameState('turnComplete');
+  };
+
+  // Sends the player to the results screen. Only called once the player has
+  // reached the bonus (second) spin - i.e. they "entered the second chance" -
+  // regardless of how that second spin's questions went.
+  const finishSession = () => {
+    const totalAnswered = correctAnswers + wrongAnswers;
     navigate('/win', {
       state: {
-        correctAnswers: finalCorrect,
-        wrongAnswers: finalWrong,
-        totalQuestions: total,
+        correctAnswers,
+        wrongAnswers,
+        totalQuestions: totalAnswered,
       },
     });
   };
 
   const handleContinue = () => {
+    const wasWrong = gameState === 'wrong';
+
+    // A wrong answer on the very first spin ends the turn immediately with
+    // no Win screen - the player never earned a second chance.
+    if (wasWrong && spinCount < MAX_SPINS) {
+      endTurn();
+      return;
+    }
+
+    // A wrong answer on the bonus (second) spin - the player DID reach the
+    // second chance, so they still get the Win screen with their final tally.
+    if (wasWrong && spinCount >= MAX_SPINS) {
+      finishSession();
+      return;
+    }
+
+    // Correct answer from here on.
     const nextQuestionIndex = currentQuestionIndex + 1;
 
     if (nextQuestionIndex < totalQuestions) {
+      // Still one more question left in this segment - keep going.
       setCurrentQuestionIndex(nextQuestionIndex);
       setSelectedAnswer(null);
       setRevealAnswer(false);
@@ -141,21 +197,25 @@ export default function Game() {
       return;
     }
 
-    // Finished both questions for this segment.
+    // Both questions in this spin were answered correctly, so this is
+    // either:
+    //  - the end of the first spin -> award the bonus second spin, or
+    //  - the end of the second (bonus) spin -> show the Win screen.
     if (spinCount < MAX_SPINS) {
+      setEarnedSecondSpin(true);
       setCurrentQuestionIndex(0);
       setSelectedAnswer(null);
       setRevealAnswer(false);
       setGameState('spinning');
     } else {
-      // Both spins used and all questions answered - go to results.
-      finishSession(correctAnswers, wrongAnswers);
+      finishSession();
     }
   };
 
   const currentQuestion = currentQuestions[currentQuestionIndex];
   const totalQuestions = currentQuestions.length;
   const progressTotal = Math.max(totalQuestions, 1);
+  const spinButtonEnabled = !isSpinning && spinCount < MAX_SPINS && gameState !== 'turnComplete';
 
   return (
     <div className="h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:px-8 md:py-5 lg:px-12 lg:py-6 bg-background text-foreground">
@@ -202,10 +262,15 @@ export default function Game() {
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}
               >
-                {spinCount === 0 ? 'Spin the Wheel!' : 'Spin Again!'}
+                {spinCount === 0 ? 'Spin the Wheel!' : 'Bonus Spin!'}
               </motion.h2>
+              {/* {spinCount > 0 && earnedSecondSpin && (
+                <p className="text-white/90 text-base md:text-lg lg:text-xl font-semibold mb-3">
+                  Great job - you earned a second spin!
+                </p>
+              )} */}
               <SpinWheel onSpinComplete={handleSpinComplete} isSpinning={isSpinning} usedSegments={usedSegments} />
-              {!isSpinning && spinCount < MAX_SPINS && (
+              {spinButtonEnabled && (
                 <div className="inline-flex">
                   <motion.button
                     onClick={handleSpinClick}
@@ -251,7 +316,7 @@ export default function Game() {
         <div className="text-center space-y-4">
           <XCircle className="w-16 h-16 md:w-20 md:h-20 xl:w-28 xl:h-28 2xl:w-32 2xl:h-32 text-red-500 mx-auto" />
           <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-800 mb-2">Not Quite!</h2>
-          <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">Let's keep going.</p>
+          <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">Your turn ends here.</p>
           <button
             onClick={handleContinue}
             className="w-full bg-purple-600 text-white rounded-2xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-purple-700 transition-colors"
@@ -260,6 +325,35 @@ export default function Game() {
           </button>
         </div>
       </Modal>
+
+      {/* Shown once the player's turn is fully over - either a wrong answer
+          ended it early, or they completed the bonus spin. No button here;
+          the page reloads automatically after a short delay. */}
+      <Modal isOpen={gameState === 'turnComplete'}>
+        <div className="text-center space-y-4">
+          <Sparkles />
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-800 mb-2">
+            Your turn is complete.
+          </h2>
+          <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">
+            Preparing for the next player...
+          </p>
+        </div>
+      </Modal>
     </div>
+  );
+}
+
+// Small inline sparkle icon so the turn-complete modal doesn't need a new
+// top-level import wired through the whole file diff.
+function Sparkles() {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className="w-14 h-14 md:w-16 md:h-16 mx-auto text-purple-500"
+      fill="currentColor"
+    >
+      <path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z" />
+    </svg>
   );
 }
