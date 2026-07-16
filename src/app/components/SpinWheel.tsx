@@ -5,11 +5,17 @@ import { QUESTIONS_BY_SEGMENT } from '../data/questions';
 interface SpinWheelProps {
   onSpinComplete: (segment: number) => void;
   isSpinning: boolean;
+  usedSegments?: number[];
 }
 
-export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps) {
+export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [] }: SpinWheelProps) {
   // Derive number of segments from the questions database so the wheel adapts
   const SEGMENTS = useMemo(() => Object.keys(QUESTIONS_BY_SEGMENT).length || 8, []);
+  const availableSegments = useMemo(() => {
+    // Keep already-assigned segments out of the next spin for the current player.
+    const unused = Array.from({ length: SEGMENTS }, (_, i) => i + 1).filter((segment) => !usedSegments.includes(segment));
+    return unused.length > 0 ? unused : Array.from({ length: SEGMENTS }, (_, i) => i + 1);
+  }, [SEGMENTS, usedSegments]);
   // Generate visually distinct colors; prefer theme chart variables when available
   const COLORS = useMemo(() => {
     try {
@@ -123,13 +129,17 @@ export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps
   useEffect(() => {
     if (!isSpinning) return;
 
-    const targetRotation = rotationRef.current + 360 * 5 + Math.random() * 360;
+    const segmentAngle = 360 / SEGMENTS;
+    const targetSegment = availableSegments[Math.floor(Math.random() * availableSegments.length)];
+    const targetSegmentIndex = targetSegment - 1;
+    const pointerAngle = targetSegmentIndex * segmentAngle + segmentAngle * (0.25 + Math.random() * 0.5);
+    const finalAngle = (360 - pointerAngle + 360) % 360;
+    const targetRotation = rotationRef.current + 360 * 5 + finalAngle;
     rotationRef.current = targetRotation;
     setRotation(targetRotation);
 
     // Wait slightly longer than the animation duration so the wheel has fully settled.
     const timer = setTimeout(() => {
-      const segmentAngle = 360 / SEGMENTS;
       // Normalise the final angle to [0, 360).
       const finalAngle = ((targetRotation % 360) + 360) % 360;
       const pointerAngle = (360 - finalAngle + 360) % 360;
@@ -138,7 +148,7 @@ export default function SpinWheel({ onSpinComplete, isSpinning }: SpinWheelProps
     }, 4200);
 
     return () => clearTimeout(timer);
-  }, [isSpinning, onSpinComplete]);
+  }, [SEGMENTS, availableSegments, isSpinning, onSpinComplete]);
 
   return (
     <div ref={containerRef} className="relative w-full mx-auto flex flex-col items-center">

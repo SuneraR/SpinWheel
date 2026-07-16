@@ -1,10 +1,9 @@
-import { useLocation, useNavigate } from 'react-router';
+import { useLocation } from 'react-router';
 import { Trophy, Sparkles, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
 export default function Win() {
-  const navigate = useNavigate();
   const location = useLocation();
   const resultState = (location.state as {
     correctAnswers?: number;
@@ -22,7 +21,6 @@ export default function Win() {
   const [confetti, setConfetti] = useState<Array<{ id: number; x: number; delay: number }>>([]);
 
   useEffect(() => {
-    // Generate confetti positions
     const pieces = Array.from({ length: 50 }, (_, i) => ({
       id: i,
       x: Math.random() * 100,
@@ -40,9 +38,18 @@ export default function Win() {
     };
   }, []);
 
+  // Show the player's results for 3 seconds, then hard-refresh the browser.
+  // This clears all React state so the next player starts a clean session,
+  // rather than relying on a "Play Again" click.
+useEffect(() => {
+  const timer = setTimeout(() => {
+    window.location.href = '/'; // or '/home' — whatever your game's starting route is
+  }, 3000);
+  return () => clearTimeout(timer);
+}, []);
+
   return (
     <div className="h-screen overflow-hidden bg-gradient-to-br from-yellow-400 via-orange-400 to-pink-500 flex items-center justify-center px-4 py-8 md:p-10 lg:p-16 relative">
-      {/* Confetti */}
       {confetti.map((piece) => (
         <motion.div
           key={piece.id}
@@ -69,7 +76,6 @@ export default function Win() {
       ))}
 
       <div className="max-w-3xl w-full text-center relative z-10 px-2 flex flex-col items-center">
-        {/* Trophy animation */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -83,7 +89,6 @@ export default function Win() {
           </div>
         </motion.div>
 
-        {/* Title */}
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -102,7 +107,6 @@ export default function Win() {
           You finished with {accuracy}% accuracy.
         </motion.p>
 
-        {/* Score card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -123,18 +127,16 @@ export default function Win() {
           </div>
         </motion.div>
 
-        {/* Play again button */}
-        <motion.button
+        {/* Replaces the old "Play Again" button - the session auto-resets
+            for the next player after a short delay, so no click is needed. */}
+        <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.9 }}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          onClick={() => navigate('/home')}
-          className="w-full bg-white text-orange-600 rounded-full py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-8 px-6 md:px-8 lg:px-10 text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold shadow-2xl"
+          className="text-white/90 text-base md:text-lg lg:text-xl font-semibold"
         >
-          Play Again
-        </motion.button>
+          Preparing for the next player...
+        </motion.p>
       </div>
     </div>
   );
