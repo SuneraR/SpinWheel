@@ -190,6 +190,7 @@ export default function Game() {
   const currentQuestion = currentQuestions[currentQuestionIndex];
   const totalQuestions = currentQuestions.length;
   const progressTotal = Math.max(totalQuestions, 1);
+  const completedQuestions = currentQuestionIndex + (selectedAnswer !== null ? 1 : 0);
   const spinButtonEnabled = !isSpinning && spinCount < MAX_SPINS && gameState !== 'gameOver' && gameState !== 'niceTry';
 
   return (
@@ -224,7 +225,7 @@ export default function Game() {
               <div
                 className="h-full transition-all duration-500"
                 style={{
-                  width: `${((currentQuestionIndex + 1) / progressTotal) * 100}%`,
+                  width: `${(completedQuestions / progressTotal) * 100}%`,
                   background: 'var(--police-green)',
                 }}
               />
