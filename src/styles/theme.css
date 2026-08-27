@@ -140,6 +140,15 @@
 }
 
 @layer base {
+  .police-pattern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: repeating-linear-gradient(135deg, transparent 0 26px, #FFFFFF 27px 28px, transparent 29px 54px);
+  }
+
   * {
     @apply border-border outline-ring/50;
   }

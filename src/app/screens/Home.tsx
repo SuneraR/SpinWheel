@@ -1,17 +1,22 @@
 import { useNavigate } from 'react-router';
 import { Play, Shield, Star } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useLanguage } from '../LanguageContext';
 
 export default function Home() {
   const navigate = useNavigate();
+  const { t } = useLanguage();
 
   return (
-    <div
-      className="h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:py-6 lg:py-8"
+    <motion.div
+      className="police-pattern relative h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:py-6 lg:py-8"
       style={{
         background: 'linear-gradient(135deg, var(--police-blue-dark) 0%, var(--police-blue) 100%)',
         color: 'var(--foreground)'
       }}
+      initial={{ opacity: 0, x: 12 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.32, ease: 'easeOut' }}
     >
       <div className="max-w-3xl xl:max-w-4xl 2xl:max-w-5xl w-full text-center flex flex-col items-center">
 
@@ -68,7 +73,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
         >
-          Test your knowledge!
+          {t.testKnowledge}
         </motion.p>
 
         {/* Main illustration */}
@@ -117,7 +122,7 @@ export default function Home() {
           whileTap={{ scale: 0.97 }}
         >
           <Play className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 xl:w-8 xl:h-8" fill="currentColor" />
-          Start Game
+          {t.startGame}
         </motion.button>
 
         {/* Additional info */}
@@ -127,10 +132,10 @@ export default function Home() {
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6, delay: 0.85 }}
         >
-          <p className="text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">Spin the wheel • Answer questions • Win!</p>
+          <p className="text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{t.spinWheel} • {t.correct} • {t.youWin}</p>
         </motion.div>
 
       </div>
-    </div>
+    </motion.div>
   );
 }

@@ -24,6 +24,7 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
   const containerRef = useRef<HTMLDivElement>(null);
   const [size, setSize] = useState(320);
   const [rotation, setRotation] = useState(0);
+  const [landingPulse, setLandingPulse] = useState(false);
   const rotationRef = useRef(0);
 
   // Keep the wheel size responsive to its container and allow larger displays.
@@ -139,8 +140,15 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
       const selectedSegment = Math.floor(pointerAngle / segmentAngle) % SEGMENTS;
       onSpinComplete(selectedSegment + 1);
     }, 4200);
+    const landingTimer = setTimeout(() => {
+      setLandingPulse(true);
+      setTimeout(() => setLandingPulse(false), 300);
+    }, 4000);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      clearTimeout(landingTimer);
+    };
   }, [SEGMENTS, availableSegments, isSpinning, onSpinComplete]);
 
   return (
@@ -156,11 +164,14 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
       <motion.canvas
         ref={canvasRef}
         className="drop-shadow-md block"
-        animate={{ rotate: rotation }}
+        animate={{ rotate: rotation, scale: landingPulse ? [1, 1.02, 1] : 1 }}
         transition={{
-          duration: 4,
-          ease: [0.17, 0.67, 0.16, 0.99],
-          type: 'tween',
+          rotate: {
+            duration: 4,
+            ease: [0.17, 0.67, 0.16, 0.99],
+            type: 'tween',
+          },
+          scale: { duration: 0.3, ease: 'easeOut' },
         }}
       />
     </div>

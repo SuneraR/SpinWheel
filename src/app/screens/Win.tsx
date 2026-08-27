@@ -2,12 +2,14 @@ import { useLocation } from 'react-router';
 import { Award, RotateCcw, Shield, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
+import { useLanguage } from '../LanguageContext';
 
 // This screen is only ever reached by players who made it to the bonus
 // (second) spin - see Game.tsx's finishSession(). With 4 total questions
 // (2 guaranteed + 2 bonus), the only possible outcomes here are:
 //   4/4 = 100%, 3/4 = 75%, or 2/4 = 50% accuracy.
 export default function Win() {
+  const { t } = useLanguage();
   const location = useLocation();
   const resultState = (location.state as {
     correctAnswers?: number;
@@ -59,8 +61,11 @@ export default function Win() {
   }, []);
 
   return (
-    <div
-      className="h-screen overflow-hidden flex items-center justify-center px-4 py-8 md:p-10 lg:p-16 relative bg-gradient-to-br from-[#003A70] to-[#0057A8]"
+    <motion.div
+      className="police-pattern h-screen overflow-hidden flex items-center justify-center px-4 py-8 md:p-10 lg:p-16 relative bg-gradient-to-br from-[#003A70] to-[#0057A8]"
+      initial={{ opacity: 0, x: 12 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.32, ease: 'easeOut' }}
     >
       {isWin &&
         confetti.map((piece) => (
@@ -113,7 +118,7 @@ export default function Win() {
           transition={{ delay: 0.3 }}
           className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white mb-1 md:mb-2"
         >
-          {isWin ? 'You Win!' : 'So Close!'}
+          {isWin ? t.missionComplete : t.niceTry}
         </motion.h1>
 
         <motion.p
@@ -123,8 +128,8 @@ export default function Win() {
           className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-white/90 mb-4 md:mb-5"
         >
           {isWin
-            ? `You finished with ${accuracy}% accuracy.`
-            : `You finished with ${accuracy}% accuracy - nice try, give it another go!`}
+            ? `${t.youWin} ${t.finishedAccuracy(accuracy)}`
+            : `${t.finishedAccuracy(accuracy)} ${t.niceTry}`}
         </motion.p>
 
         <motion.div
@@ -136,15 +141,15 @@ export default function Win() {
           <div className="grid grid-cols-3 gap-2 md:gap-4">
             <div className="rounded-lg bg-[#EAF4FB] border border-[#D8E4ED] p-3 md:p-5">
               <p className="text-[#D71920] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{correctAnswers}</p>
-              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">Correct</p>
+              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">{t.correct}</p>
             </div>
             <div className="rounded-lg bg-[#F7FAFC] border border-[#D8E4ED] p-3 md:p-5">
               <p className="text-[#486581] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{wrongAnswers}</p>
-              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">Incorrect</p>
+              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">{t.incorrect}</p>
             </div>
             <div className="rounded-lg bg-[#EAF7EF] border border-[#8FD3B0] p-3 md:p-5">
               <p className="text-[#176B45] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{accuracy}%</p>
-              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">Accuracy</p>
+              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">{t.accuracy}</p>
             </div>
           </div>
         </motion.div>
@@ -157,7 +162,7 @@ export default function Win() {
           className="w-full max-w-md rounded-xl bg-white text-[#003A70] py-3 md:py-4 px-6 text-lg md:text-xl font-bold shadow-lg hover:bg-[#EAF4FB] transition-colors"
         >
           <RotateCcw className="mr-2 inline-block h-5 w-5 md:h-6 md:w-6" />
-          PLAY AGAIN
+          {t.playAgain}
         </motion.button>
 
         {/* Session auto-resets for the next player after a short delay,
@@ -168,9 +173,9 @@ export default function Win() {
           transition={{ delay: 1.1 }}
           className="text-white/90 text-sm md:text-base lg:text-lg font-semibold"
         >
-          Preparing for the next player...
+          {t.preparingNextPlayer}
         </motion.p>
       </div>
-    </div>
+    </motion.div>
   );
 }
