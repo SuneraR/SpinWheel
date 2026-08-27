@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import { Trophy, Sparkles, Medal } from 'lucide-react';
+import { Award, RotateCcw, Shield, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -98,12 +98,11 @@ export default function Win() {
           <div className="relative inline-block">
             {isWin ? (
               <>
-                <Trophy className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 text-white mx-auto drop-shadow-2xl" fill="currentColor" />
-                <Sparkles className="w-5 h-5 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10 text-white absolute -top-1 -right-1 animate-pulse" />
-                <Sparkles className="w-5 h-5 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10 text-white absolute -bottom-1 -left-1 animate-pulse" />
+                <Award className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 text-white mx-auto" strokeWidth={1.6} />
+                <Star className="w-5 h-5 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10 text-[#8FD3B0] absolute -top-1 -right-1" fill="currentColor" />
               </>
             ) : (
-              <Medal className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 text-white mx-auto drop-shadow-2xl" fill="currentColor" />
+              <Shield className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 text-white mx-auto" strokeWidth={1.6} />
             )}
           </div>
         </motion.div>
@@ -157,6 +156,7 @@ export default function Win() {
           onClick={() => { window.location.href = '/'; }}
           className="w-full max-w-md rounded-xl bg-white text-[#003A70] py-3 md:py-4 px-6 text-lg md:text-xl font-bold shadow-lg hover:bg-[#EAF4FB] transition-colors"
         >
+          <RotateCcw className="mr-2 inline-block h-5 w-5 md:h-6 md:w-6" />
           PLAY AGAIN
         </motion.button>
 

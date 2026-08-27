@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Play, Shield, Sparkles, Joystick } from 'lucide-react';
+import { Play, Shield, Star } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Home() {
@@ -27,7 +27,7 @@ export default function Home() {
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.2 }}
           >
             <div style={{ color: 'var(--chart-1)' }}>
-              <Sparkles className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12" />
+              <Star className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12" />
             </div>
           </motion.div>
 
@@ -48,7 +48,7 @@ export default function Home() {
             animate={{ rotate: [0, -15, 15, 0], scale: [1, 1.15, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
           >
-            <Sparkles className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-[#8FD3B0]" />
+            <Star className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-[#8FD3B0]" />
           </motion.div>
         </motion.div>
 
@@ -98,7 +98,7 @@ export default function Home() {
                 transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
               >
                 <div style={{ color: 'var(--primary-foreground)' }}>
-                  <Joystick className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28" />
+                  <Shield className="w-12 h-12 sm:w-16 sm:h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 xl:w-28 xl:h-28" strokeWidth={1.6} />
                 </div>
               </motion.div>
             </motion.div>

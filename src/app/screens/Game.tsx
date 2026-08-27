@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useNavigate } from 'react-router';
-import { CheckCircle, XCircle } from 'lucide-react';
+import { CheckCircle, RotateCcw, Shield, ShieldX, Star, XCircle } from 'lucide-react';
 import SpinWheel from '../components/SpinWheel';
 import QuestionCard from '../components/QuestionCard';
 import Modal from '../components/Modal';
@@ -177,6 +177,7 @@ export default function Game() {
   const totalQuestions = currentQuestions.length;
   const progressTotal = Math.max(totalQuestions, 1);
   const completedQuestions = currentQuestionIndex + (selectedAnswer !== null ? 1 : 0);
+  const displayedSpin = gameState === 'spinning' ? spinCount + 1 : spinCount;
   const spinButtonEnabled = !isSpinning && spinCount < MAX_SPINS && gameState !== 'gameOver' && gameState !== 'niceTry';
 
   return (
@@ -187,7 +188,7 @@ export default function Game() {
             <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
               <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
                 <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-                    Spin {spinCount} of {MAX_SPINS}
+                    Spin {displayedSpin} of {MAX_SPINS}
                 </span>
                 <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
                     •
@@ -239,8 +240,10 @@ export default function Game() {
                 <div className="inline-flex">
                   <motion.button
                     onClick={handleSpinClick}
-                    className="mt-6 md:mt-8 rounded-full py-3 sm:py-3.5 md:py-4 lg:py-5 xl:py-6 2xl:py-8 px-8 sm:px-10 md:px-12 lg:px-14 xl:px-16 2xl:px-20 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold shadow-2xl"
+                    className="mt-6 md:mt-8 rounded-full border-2 border-white py-3 sm:py-3.5 md:py-4 lg:py-5 xl:py-6 2xl:py-8 px-8 sm:px-10 md:px-12 lg:px-14 xl:px-16 2xl:px-20 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold shadow-2xl"
                     style={{ background: 'var(--police-blue)', color: 'var(--white)' }}
+                    animate={{ borderColor: ['rgba(255, 255, 255, 0.55)', '#FFFFFF', 'rgba(255, 255, 255, 0.55)'] }}
+                    transition={{ borderColor: { duration: 1.6, repeat: Infinity, ease: 'easeInOut' } }}
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.96 }}
                   >
@@ -279,7 +282,14 @@ export default function Game() {
 
       <Modal isOpen={gameState === 'gameOver' || gameState === 'niceTry'}>
         <div className="text-center space-y-3">
-          <XCircle className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#6B7C93] mx-auto" />
+          {gameState === 'gameOver' ? (
+            <ShieldX className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#6B7C93] mx-auto" strokeWidth={1.8} />
+          ) : (
+            <span className="relative inline-flex">
+              <Shield className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#0057A8]" strokeWidth={1.8} />
+              <Star className="absolute -right-2 -top-2 h-5 w-5 md:h-6 md:w-6 text-[#218653]" fill="currentColor" />
+            </span>
+          )}
           <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#003A70] mb-2">
             {gameState === 'gameOver' ? 'Game Over' : 'Nice Try!'}
           </h2>
@@ -290,6 +300,7 @@ export default function Game() {
             onClick={restartGame}
             className="w-full bg-[#0057A8] text-white rounded-xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl font-bold shadow-lg hover:bg-[#003A70] transition-colors"
           >
+            <RotateCcw className="mr-2 inline-block h-5 w-5 md:h-6 md:w-6" />
             PLAY AGAIN
           </button>
         </div>
