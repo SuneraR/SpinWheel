@@ -1,0 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Sinhala:wght@400;500;600;700&display=swap');
+
+:root {
+	font-family: 'Noto Sans Sinhala', 'Noto Sans', sans-serif;
+}
+
+.font-sinhala {
+	font-family: 'Noto Sans Sinhala', 'Noto Sans', sans-serif;
+}

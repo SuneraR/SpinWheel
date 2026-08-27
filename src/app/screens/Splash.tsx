@@ -18,7 +18,7 @@ export default function Splash() {
     <motion.div
       className="h-screen overflow-hidden flex items-center justify-center px-4 py-8 md:py-12"
       style={{
-        background: `radial-gradient(900px circle at 20% 20%, var(--primary) 0%, var(--accent) 35%, transparent 60%), linear-gradient(180deg, var(--background), rgba(0,0,0,0.3))`,
+        background: 'linear-gradient(135deg, var(--police-blue-dark) 0%, var(--police-blue) 100%)',
       }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -52,7 +52,7 @@ export default function Splash() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          Spin Quiz
+          Sri Lanka Police Spin Quiz
         </motion.h1>
 
         {/* Loading dots */}

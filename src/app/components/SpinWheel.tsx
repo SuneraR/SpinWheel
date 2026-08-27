@@ -16,26 +16,9 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
     const unused = Array.from({ length: SEGMENTS }, (_, i) => i + 1).filter((segment) => !usedSegments.includes(segment));
     return unused.length > 0 ? unused : Array.from({ length: SEGMENTS }, (_, i) => i + 1);
   }, [SEGMENTS, usedSegments]);
-  // Generate visually distinct colors; prefer theme chart variables when available
+  // Keep the wheel legible and consistent with the event identity.
   const COLORS = useMemo(() => {
-    try {
-      if (typeof window !== 'undefined') {
-        const styles = getComputedStyle(document.documentElement);
-        const themeCols = [
-          styles.getPropertyValue('--chart-1')?.trim(),
-          styles.getPropertyValue('--chart-2')?.trim(),
-          styles.getPropertyValue('--chart-3')?.trim(),
-          styles.getPropertyValue('--chart-4')?.trim(),
-          styles.getPropertyValue('--chart-5')?.trim(),
-        ].filter(Boolean) as string[];
-        if (themeCols.length) {
-          return Array.from({ length: SEGMENTS }, (_, i) => themeCols[i % themeCols.length]);
-        }
-      }
-    } catch (e) {
-      // ignore and fall back
-    }
-    return Array.from({ length: SEGMENTS }, (_, i) => `hsl(${Math.round((i * 360) / SEGMENTS)}, 65%, 60%)`);
+    return Array.from({ length: SEGMENTS }, (_, i) => i % 2 === 0 ? '#0057A8' : '#FFFFFF');
   }, [SEGMENTS]);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -89,6 +72,12 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
     // Draw segments
     const anglePerSegment = (2 * Math.PI) / SEGMENTS;
 
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius + 4, 0, 2 * Math.PI);
+    ctx.strokeStyle = '#003A70';
+    ctx.lineWidth = Math.max(5, radius * 0.025);
+    ctx.stroke();
+
     for (let i = 0; i < SEGMENTS; i++) {
       const startAngle = i * anglePerSegment - Math.PI / 2;
       const endAngle = startAngle + anglePerSegment;
@@ -100,7 +89,7 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
       ctx.closePath();
       ctx.fillStyle = COLORS[i];
       ctx.fill();
-      ctx.strokeStyle = '#fff';
+      ctx.strokeStyle = '#003A70';
       ctx.lineWidth = Math.max(2, radius * 0.006);
       ctx.stroke();
 
@@ -110,8 +99,8 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
       ctx.rotate(startAngle + anglePerSegment / 2 + Math.PI / 2);
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = '#fff';
-      ctx.font = `bold ${Math.round(radius * 0.12)}px sans-serif`;
+      ctx.fillStyle = i % 2 === 0 ? '#FFFFFF' : '#003A70';
+      ctx.font = `bold ${Math.round(radius * 0.14)}px sans-serif`;
       ctx.fillText((i + 1).toString(), 0, -radius * 0.65);
       ctx.restore();
     }
@@ -119,11 +108,15 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
     // Draw center circle
     ctx.beginPath();
     ctx.arc(centerX, centerY, radius * 0.08, 0, 2 * Math.PI);
-    ctx.fillStyle = '#fff';
+    ctx.fillStyle = '#0057A8';
     ctx.fill();
-    ctx.strokeStyle = '#e0e0e0';
+    ctx.strokeStyle = '#FFFFFF';
     ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(centerX, centerY, radius * 0.045, 0, 2 * Math.PI);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fill();
   }, [rotation, size]);
 
   useEffect(() => {
@@ -162,7 +155,7 @@ export default function SpinWheel({ onSpinComplete, isSpinning, usedSegments = [
 
       <motion.canvas
         ref={canvasRef}
-        className="drop-shadow-2xl block"
+        className="drop-shadow-md block"
         animate={{ rotate: rotation }}
         transition={{
           duration: 4,

@@ -1,5 +1,5 @@
 import { useLocation } from 'react-router';
-import { Trophy, Sparkles, Star, Medal } from 'lucide-react';
+import { Trophy, Sparkles, Medal } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -7,8 +7,6 @@ import { useEffect, useRef, useState } from 'react';
 // (second) spin - see Game.tsx's finishSession(). With 4 total questions
 // (2 guaranteed + 2 bonus), the only possible outcomes here are:
 //   4/4 = 100%, 3/4 = 75%, or 2/4 = 50% accuracy.
-const WIN_THRESHOLD = 75;
-
 export default function Win() {
   const location = useLocation();
   const resultState = (location.state as {
@@ -24,8 +22,7 @@ export default function Win() {
   const accuracyBase = totalQuestions || answeredQuestions;
   const accuracy = accuracyBase > 0 ? Math.round((correctAnswers / accuracyBase) * 100) : 0;
 
-  // Tiered outcome messaging, driven purely by accuracy.
-  const isWin = accuracy >= WIN_THRESHOLD;
+  const isWin = wrongAnswers === 0 && totalQuestions > 0;
 
   const winSoundRef = useRef<HTMLAudioElement | null>(null);
   const [confetti, setConfetti] = useState<Array<{ id: number; x: number; delay: number }>>([]);
@@ -52,23 +49,18 @@ export default function Win() {
     };
   }, [isWin]);
 
-  // Show the player's results for 3 seconds, then hard-refresh the browser
-  // back to the start route. This clears all React state so the next player
-  // starts a clean session, rather than relying on a "Play Again" click.
+  // Keep the unattended event display moving to the next player while still
+  // giving players time to use the explicit restart action.
   useEffect(() => {
     const timer = setTimeout(() => {
       window.location.href = '/'; // or '/home' — whatever your game's starting route is
-    }, 3000);
+    }, 10000);
     return () => clearTimeout(timer);
   }, []);
 
   return (
     <div
-      className={`h-screen overflow-hidden flex items-center justify-center px-4 py-8 md:p-10 lg:p-16 relative ${
-        isWin
-          ? 'bg-gradient-to-br from-yellow-400 via-orange-400 to-pink-500'
-          : 'bg-gradient-to-br from-indigo-400 via-purple-400 to-blue-500'
-      }`}
+      className="h-screen overflow-hidden flex items-center justify-center px-4 py-8 md:p-10 lg:p-16 relative bg-gradient-to-br from-[#003A70] to-[#0057A8]"
     >
       {isWin &&
         confetti.map((piece) => (
@@ -78,7 +70,7 @@ export default function Win() {
             style={{
               left: `${piece.x}%`,
               top: -20,
-              backgroundColor: ['#FF6B6B', '#4ECDC4', '#FFE66D', '#A8E6CF', '#FF8B94'][
+              backgroundColor: ['#FFFFFF', '#218653', '#EAF4FB', '#8FD3B0', '#D71920'][
                 Math.floor(Math.random() * 5)
               ],
             }}
@@ -106,7 +98,7 @@ export default function Win() {
           <div className="relative inline-block">
             {isWin ? (
               <>
-                <Trophy className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 text-yellow-300 mx-auto drop-shadow-2xl" fill="currentColor" />
+                <Trophy className="w-16 h-16 md:w-24 md:h-24 lg:w-28 lg:h-28 xl:w-32 xl:h-32 2xl:w-36 2xl:h-36 text-white mx-auto drop-shadow-2xl" fill="currentColor" />
                 <Sparkles className="w-5 h-5 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10 text-white absolute -top-1 -right-1 animate-pulse" />
                 <Sparkles className="w-5 h-5 md:w-7 md:h-7 lg:w-8 lg:h-8 xl:w-10 xl:h-10 text-white absolute -bottom-1 -left-1 animate-pulse" />
               </>
@@ -140,29 +132,41 @@ export default function Win() {
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.7 }}
-          className="bg-white/20 backdrop-blur-sm rounded-3xl p-4 md:p-6 lg:p-8 xl:p-10 mb-4 md:mb-5 border-2 border-white/30 w-full"
+          className="bg-white rounded-xl p-4 md:p-6 lg:p-8 xl:p-10 mb-4 md:mb-5 border-2 border-[#D8E4ED] w-full"
         >
-          <div className="flex justify-around gap-4">
-            <div>
-              <Star className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-yellow-300 mx-auto mb-1" fill="currentColor" />
-              <p className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">{correctAnswers}/{answeredQuestions}</p>
-              <p className="text-white/80 text-sm md:text-base lg:text-lg xl:text-xl">Questions</p>
+          <div className="grid grid-cols-3 gap-2 md:gap-4">
+            <div className="rounded-lg bg-[#EAF4FB] border border-[#D8E4ED] p-3 md:p-5">
+              <p className="text-[#D71920] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{correctAnswers}</p>
+              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">Correct</p>
             </div>
-            <div>
-              <Trophy className="w-6 h-6 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-yellow-300 mx-auto mb-1" fill="currentColor" />
-              <p className="text-white font-bold text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">{accuracy}%</p>
-              <p className="text-white/80 text-sm md:text-base lg:text-lg xl:text-xl">Accuracy</p>
+            <div className="rounded-lg bg-[#F7FAFC] border border-[#D8E4ED] p-3 md:p-5">
+              <p className="text-[#486581] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{wrongAnswers}</p>
+              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">Incorrect</p>
+            </div>
+            <div className="rounded-lg bg-[#EAF7EF] border border-[#8FD3B0] p-3 md:p-5">
+              <p className="text-[#176B45] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{accuracy}%</p>
+              <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">Accuracy</p>
             </div>
           </div>
         </motion.div>
+
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.9 }}
+          onClick={() => { window.location.href = '/'; }}
+          className="w-full max-w-md rounded-xl bg-white text-[#003A70] py-3 md:py-4 px-6 text-lg md:text-xl font-bold shadow-lg hover:bg-[#EAF4FB] transition-colors"
+        >
+          PLAY AGAIN
+        </motion.button>
 
         {/* Session auto-resets for the next player after a short delay,
             so no "Play Again" click is needed. */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="text-white/90 text-base md:text-lg lg:text-xl font-semibold"
+          transition={{ delay: 1.1 }}
+          className="text-white/90 text-sm md:text-base lg:text-lg font-semibold"
         >
           Preparing for the next player...
         </motion.p>

@@ -10,65 +10,6 @@ interface QuestionCardProps {
   onAnswer: (selectedIndex: number) => void;
 }
 
-const COLOR_THEMES = [
-  {
-    bg: 'bg-sky-50',
-    text: 'text-sky-900',
-    border: 'border-sky-200',
-    hover: 'hover:bg-sky-100',
-    chip: 'bg-sky-100 text-sky-700',
-  },
-  {
-    bg: 'bg-violet-50',
-    text: 'text-violet-900',
-    border: 'border-violet-200',
-    hover: 'hover:bg-violet-100',
-    chip: 'bg-violet-100 text-violet-700',
-  },
-  {
-    bg: 'bg-amber-50',
-    text: 'text-amber-900',
-    border: 'border-amber-200',
-    hover: 'hover:bg-amber-100',
-    chip: 'bg-amber-100 text-amber-700',
-  },
-  {
-    bg: 'bg-teal-50',
-    text: 'text-teal-900',
-    border: 'border-teal-200',
-    hover: 'hover:bg-teal-100',
-    chip: 'bg-teal-100 text-teal-700',
-  },
-  {
-    bg: 'bg-pink-50',
-    text: 'text-pink-900',
-    border: 'border-pink-200',
-    hover: 'hover:bg-pink-100',
-    chip: 'bg-pink-100 text-pink-700',
-  },
-  {
-    bg: 'bg-indigo-50',
-    text: 'text-indigo-900',
-    border: 'border-indigo-200',
-    hover: 'hover:bg-indigo-100',
-    chip: 'bg-indigo-100 text-indigo-700',
-  },
-  {
-    bg: 'bg-orange-50',
-    text: 'text-orange-900',
-    border: 'border-orange-200',
-    hover: 'hover:bg-orange-100',
-    chip: 'bg-orange-100 text-orange-700',
-  },
-  {
-    bg: 'bg-cyan-50',
-    text: 'text-cyan-900',
-    border: 'border-cyan-200',
-    hover: 'hover:bg-cyan-100',
-    chip: 'bg-cyan-100 text-cyan-700',
-  },
-];
-
 export default function QuestionCard({ question, answers, correctAnswer, onAnswer, revealCorrect = false, selectedAnswer = null }: QuestionCardProps) {
   const handleAnswerClick = (index: number) => {
     if (revealCorrect) return;
@@ -85,6 +26,7 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
     if (!wrapper || !content) return;
 
     function fit() {
+      if (!wrapper || !content) return;
       const maxH = Math.floor(window.innerHeight * 0.86);
       wrapper.style.height = `${maxH}px`;
 
@@ -121,8 +63,8 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
     >
       <div ref={contentRef} className="w-full">
         {/* Question */}
-        <div className="bg-white rounded-3xl p-4 md:p-6 lg:p-7 xl:p-8 2xl:p-10 shadow-2xl mb-3 md:mb-4 xl:mb-5">
-          <h2 className="text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-gray-800 text-center leading-snug break-words whitespace-normal">
+        <div className="bg-white rounded-xl border-t-4 border-[#0057A8] p-4 md:p-6 lg:p-7 xl:p-8 2xl:p-10 shadow-lg mb-3 md:mb-4 xl:mb-5">
+          <h2 className="font-sinhala text-xl md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl font-bold text-[#102A43] text-center leading-relaxed break-words whitespace-normal">
             {question}
           </h2>
         </div>
@@ -132,19 +74,18 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
           {answers.map((answer, index) => {
           const isCorrect = revealCorrect && index === correctAnswer;
           const isSelected = revealCorrect && selectedAnswer === index && !isCorrect;
-          const theme = COLOR_THEMES[index % COLOR_THEMES.length];
-          const base = 'w-full rounded-2xl py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-7 px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10 text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold shadow-lg transition-colors duration-200 text-left border flex items-center gap-4';
+          const base = 'w-full rounded-xl py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-7 px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10 text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold shadow-md transition-colors duration-200 text-left border flex items-center gap-4';
           const state = isCorrect
-            ? 'bg-green-500 border-green-600 text-white ring-4 ring-green-300 shadow-[0_0_28px_rgba(74,222,128,0.75)] scale-[1.02] animate-[pulse_1.2s_ease-in-out_infinite]'
+            ? 'bg-[#D71920] border-[#B5121B] text-white ring-4 ring-red-200 scale-[1.02]'
             : isSelected
-              ? 'bg-red-50 border-red-400 text-red-700'
-              : `${theme.bg} ${theme.text} ${theme.border} ${theme.hover}`;
+              ? 'bg-slate-100 border-slate-400 text-slate-600'
+              : 'bg-white text-[#003A70] border-[#D8E4ED] hover:bg-[#EAF4FB] hover:border-[#0057A8]';
           const chipBase = 'flex-shrink-0 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 rounded-full font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl';
           const chipState = isCorrect
-            ? 'bg-green-700 text-white'
+            ? 'bg-[#B5121B] text-white'
             : isSelected
-              ? 'bg-red-100 text-red-700'
-              : theme.chip;
+              ? 'bg-slate-200 text-slate-600'
+              : 'bg-[#EAF4FB] text-[#0057A8]';
 
           return (
             <motion.button
@@ -156,7 +97,7 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
               className={`${base} ${state}`}
             >
               <span className={`${chipBase} ${chipState}`}>{String.fromCharCode(65 + index)}</span>
-              <div className="flex-1 break-words whitespace-normal text-left">{answer}</div>
+              <div className="font-sinhala flex-1 break-words whitespace-normal text-left leading-relaxed">{answer}</div>
             </motion.button>
           );
         })}

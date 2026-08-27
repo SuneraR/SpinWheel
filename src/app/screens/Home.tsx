@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { Play, Trophy, Sparkles, Joystick } from 'lucide-react';
+import { Play, Shield, Sparkles, Joystick } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
     <div
       className="h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:py-6 lg:py-8"
       style={{
-        background: `radial-gradient(900px circle at 30% 25%, var(--primary) 0%, var(--accent) 30%, transparent 55%), linear-gradient(180deg, var(--background), rgba(0,0,0,0.25))`,
+        background: 'linear-gradient(135deg, var(--police-blue-dark) 0%, var(--police-blue) 100%)',
         color: 'var(--foreground)'
       }}
     >
@@ -40,7 +40,7 @@ export default function Home() {
               animate={{ y: [0, -6, 0] }}
               transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
             >
-              <Trophy className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 text-yellow-300" />
+              <Shield className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 xl:w-16 xl:h-16 text-white" />
             </motion.div>
           </motion.div>
 
@@ -48,7 +48,7 @@ export default function Home() {
             animate={{ rotate: [0, -15, 15, 0], scale: [1, 1.15, 1] }}
             transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut', delay: 0.6 }}
           >
-            <Sparkles className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-yellow-300" />
+            <Sparkles className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10 xl:w-12 xl:h-12 text-[#8FD3B0]" />
           </motion.div>
         </motion.div>
 
@@ -59,7 +59,7 @@ export default function Home() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.25, ease: 'easeOut' }}
         >
-          Spin Quiz
+          Sri Lanka Police Spin Quiz
         </motion.h1>
 
         <motion.p

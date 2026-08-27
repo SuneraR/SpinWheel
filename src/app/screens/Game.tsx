@@ -38,14 +38,9 @@ const shuffleQuestions = (questions: Question[]) => {
 // correctly (see handleContinue below).
 const MAX_SPINS = 2;
 
-// 'turnComplete' is the terminal state for players who never earn a second
-// chance - they missed a question on the very first spin. It's shown right
-// before we reload the page for the next player.
-//
-// Players who DO reach the bonus (second) spin never see 'turnComplete' -
-// once they're on their second spin, however it ends (right or wrong),
-// they're routed to the /win results screen instead. See handleContinue.
-type GameState = 'spinning' | 'question' | 'correct' | 'wrong' | 'turnComplete';
+// Terminal states distinguish failing the first chance from failing the
+// second, while the win route is reserved for two fully correct chances.
+type GameState = 'spinning' | 'question' | 'correct' | 'wrong' | 'gameOver' | 'niceTry';
 
 export default function Game() {
   const navigate = useNavigate();
@@ -78,22 +73,11 @@ export default function Game() {
     };
   }, []);
 
-  // Once the turn is complete, show the message for 3 seconds, then hard
-  // refresh the browser. A full reload clears all React state, guaranteeing
-  // a clean slate for the next player (spinCount, usedSegments, answers, etc).
-  useEffect(() => {
-    if (gameState !== 'turnComplete') return;
-    const timer = setTimeout(() => {
-      window.location.reload();
-    }, 3000);
-    return () => clearTimeout(timer);
-  }, [gameState]);
-
   const handleSpinClick = () => {
     // Guard against spinning once the turn has ended or once both spins
     // have already been used, in addition to the button not being rendered
     // in those states.
-    if (spinCount >= MAX_SPINS || isSpinning || gameState === 'turnComplete') return;
+    if (spinCount >= MAX_SPINS || isSpinning || gameState === 'gameOver' || gameState === 'niceTry') return;
     setIsSpinning(true);
   };
 
@@ -146,17 +130,10 @@ export default function Game() {
     }
   };
 
-  // Ends the player's turn WITHOUT a Win screen: used only when the player
-  // never made it past the first spin, so there's nothing to celebrate yet.
-  // Shows the "preparing for next player" message, then a page reload
-  // (handled by the useEffect above) resets everything.
-  const endTurn = () => {
-    setGameState('turnComplete');
+  const restartGame = () => {
+    window.location.href = '/';
   };
 
-  // Sends the player to the results screen. Only called once the player has
-  // reached the bonus (second) spin - i.e. they "entered the second chance" -
-  // regardless of how that second spin's questions went.
   const finishSession = () => {
     const totalAnswered = correctAnswers + wrongAnswers;
     navigate('/win', {
@@ -174,14 +151,12 @@ export default function Game() {
     // A wrong answer on the very first spin ends the turn immediately with
     // no Win screen - the player never earned a second chance.
     if (wasWrong && spinCount < MAX_SPINS) {
-      endTurn();
+      setGameState('gameOver');
       return;
     }
 
-    // A wrong answer on the bonus (second) spin - the player DID reach the
-    // second chance, so they still get the Win screen with their final tally.
     if (wasWrong && spinCount >= MAX_SPINS) {
-      finishSession();
+      setGameState('niceTry');
       return;
     }
 
@@ -197,7 +172,7 @@ export default function Game() {
       return;
     }
 
-    // Both questions in this spin were answered correctly, so this is
+    // All questions in this spin were answered correctly, so this is
     // either:
     //  - the end of the first spin -> award the bonus second spin, or
     //  - the end of the second (bonus) spin -> show the Win screen.
@@ -215,39 +190,42 @@ export default function Game() {
   const currentQuestion = currentQuestions[currentQuestionIndex];
   const totalQuestions = currentQuestions.length;
   const progressTotal = Math.max(totalQuestions, 1);
-  const spinButtonEnabled = !isSpinning && spinCount < MAX_SPINS && gameState !== 'turnComplete';
+  const spinButtonEnabled = !isSpinning && spinCount < MAX_SPINS && gameState !== 'gameOver' && gameState !== 'niceTry';
 
   return (
-    <div className="h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:px-8 md:py-5 lg:px-12 lg:py-6 bg-background text-foreground">
+    <div className="h-screen overflow-hidden flex flex-col items-center justify-center px-4 py-4 md:px-8 md:py-5 lg:px-12 lg:py-6 bg-[#003A70] text-foreground">
       <div className="w-full flex flex-col gap-5 items-center max-w-7xl">
         {selectedSegment && (
           <div className="w-full max-w-4xl lg:max-w-5xl xl:max-w-6xl 2xl:max-w-7xl mb-3 xl:mb-4">
             <div className="flex justify-between items-center mb-2 flex-wrap gap-2">
               <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
                 <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-                  Spin {spinCount}/{MAX_SPINS} · Segment {selectedSegment}
+                    Spin {spinCount} of {MAX_SPINS}
                 </span>
                 <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
-                  Question {currentQuestionIndex + 1}/{totalQuestions}
+                    •
+                  </span>
+                  <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">
+                    Question {currentQuestionIndex + 1} of {totalQuestions}
                 </span>
               </div>
               <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
                 <div className="flex items-center gap-1">
-                  <CheckCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-green-400" />
+                  <CheckCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-[#D71920]" />
                   <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{correctAnswers}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <XCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-red-400" />
+                  <XCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-[#BCCCDC]" />
                   <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{wrongAnswers}</span>
                 </div>
               </div>
             </div>
-            <div className="h-3 xl:h-4 2xl:h-5 bg-white/10 rounded-full overflow-hidden">
+            <div className="h-3 xl:h-4 2xl:h-5 bg-[#0057A8] rounded-full overflow-hidden">
               <div
                 className="h-full transition-all duration-500"
                 style={{
                   width: `${((currentQuestionIndex + 1) / progressTotal) * 100}%`,
-                  background: 'linear-gradient(90deg, var(--chart-1), var(--chart-2))',
+                  background: 'var(--police-green)',
                 }}
               />
             </div>
@@ -275,7 +253,7 @@ export default function Game() {
                   <motion.button
                     onClick={handleSpinClick}
                     className="mt-6 md:mt-8 rounded-full py-3 sm:py-3.5 md:py-4 lg:py-5 xl:py-6 2xl:py-8 px-8 sm:px-10 md:px-12 lg:px-14 xl:px-16 2xl:px-20 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl 2xl:text-4xl font-bold shadow-2xl"
-                    style={{ background: 'var(--primary)', color: 'var(--primary-foreground)' }}
+                    style={{ background: 'var(--police-blue)', color: 'var(--white)' }}
                     whileHover={{ scale: 1.08 }}
                     whileTap={{ scale: 0.96 }}
                   >
@@ -300,12 +278,12 @@ export default function Game() {
       </div>
 
       <Modal isOpen={gameState === 'correct'}>
-        <div className="text-center space-y-4">
-          <CheckCircle className="w-16 h-16 md:w-20 md:h-20 xl:w-28 xl:h-28 2xl:w-32 2xl:h-32 text-green-500 mx-auto" />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-800 mb-2">Correct!</h2>
+        <div className="text-center space-y-3">
+          <CheckCircle className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#D71920] mx-auto" />
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#D71920] mb-2">Correct!</h2>
           <button
             onClick={handleContinue}
-            className="w-full bg-purple-600 text-white rounded-2xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-purple-700 transition-colors"
+            className="w-full bg-[#0057A8] text-white rounded-xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-[#003A70] transition-colors"
           >
             Continue
           </button>
@@ -315,11 +293,11 @@ export default function Game() {
       <Modal isOpen={gameState === 'wrong'}>
         <div className="text-center space-y-4">
           <XCircle className="w-16 h-16 md:w-20 md:h-20 xl:w-28 xl:h-28 2xl:w-32 2xl:h-32 text-red-500 mx-auto" />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-800 mb-2">Not Quite!</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-[#003A70] mb-2">Not Quite!</h2>
           <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">Your turn ends here.</p>
           <button
             onClick={handleContinue}
-            className="w-full bg-purple-600 text-white rounded-2xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-purple-700 transition-colors"
+            className="w-full bg-[#0057A8] text-white rounded-xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-[#003A70] transition-colors"
           >
             Continue
           </button>
@@ -329,31 +307,24 @@ export default function Game() {
       {/* Shown once the player's turn is fully over - either a wrong answer
           ended it early, or they completed the bonus spin. No button here;
           the page reloads automatically after a short delay. */}
-      <Modal isOpen={gameState === 'turnComplete'}>
-        <div className="text-center space-y-4">
-          <Sparkles />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-gray-800 mb-2">
-            Your turn is complete.
+      <Modal isOpen={gameState === 'gameOver' || gameState === 'niceTry'}>
+        <div className="text-center space-y-3">
+          <XCircle className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#6B7C93] mx-auto" />
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#003A70] mb-2">
+            {gameState === 'gameOver' ? 'Game Over' : 'Nice Try!'}
           </h2>
           <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">
-            Preparing for the next player...
+            {gameState === 'gameOver' ? 'Better luck next time!' : 'You made it to the second round. Thanks for playing!'}
           </p>
+          <button
+            onClick={restartGame}
+            className="w-full bg-[#0057A8] text-white rounded-xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl font-bold shadow-lg hover:bg-[#003A70] transition-colors"
+          >
+            PLAY AGAIN
+          </button>
         </div>
       </Modal>
     </div>
   );
 }
 
-// Small inline sparkle icon so the turn-complete modal doesn't need a new
-// top-level import wired through the whole file diff.
-function Sparkles() {
-  return (
-    <svg
-      viewBox="0 0 24 24"
-      className="w-14 h-14 md:w-16 md:h-16 mx-auto text-purple-500"
-      fill="currentColor"
-    >
-      <path d="M12 2l1.8 5.2L19 9l-5.2 1.8L12 16l-1.8-5.2L5 9l5.2-1.8L12 2z" />
-    </svg>
-  );
-}

@@ -3,39 +3,52 @@
 :root {
   --font-size: 16px;
   /* Background and surface */
-  --background: #071026; /* deep navy */
-  --foreground: #e8f6ff; /* pale cyan text */
-  --card: rgba(255,255,255,0.03);
-  --card-foreground: #e8f6ff;
-  --popover: rgba(8,18,36,0.8);
-  --popover-foreground: #e8f6ff;
+  --police-blue-dark: #003A70;
+  --police-blue: #0057A8;
+  --police-blue-light: #EAF4FB;
+  --police-green-dark: #176B45;
+  --police-green: #218653;
+  --police-green-light: #EAF7EF;
+  --white: #FFFFFF;
+  --off-white: #F7FAFC;
+  --text-dark: #102A43;
+  --border-light: #D8E4ED;
+  --correct-red: #D71920;
+  --correct-red-dark: #B5121B;
+  --correct-red-light: #FDEBEC;
+  --background: var(--police-blue-dark);
+  --foreground: var(--white);
+  --card: var(--white);
+  --card-foreground: var(--text-dark);
+  --popover: var(--white);
+  --popover-foreground: var(--text-dark);
 
   /* Game accent colors */
-  --primary: #ffb84d; /* gold */
-  --primary-foreground: #071026;
-  --secondary: #7cf7e1; /* teal */
-  --secondary-foreground: #071026;
-  --muted: #112033;
-  --muted-foreground: #9fb9c9;
-  --accent: #ff4d8b; /* magenta */
-  --accent-foreground: #071026;
-  --destructive: #ff5c7c;
-  --destructive-foreground: #071026;
+  --primary: var(--police-blue);
+  --primary-foreground: var(--white);
+  --secondary: var(--police-green);
+  --secondary-foreground: var(--white);
+  --muted: var(--police-blue-light);
+  --muted-foreground: #486581;
+  --accent: var(--police-green);
+  --accent-foreground: var(--white);
+  --destructive: var(--correct-red);
+  --destructive-foreground: var(--white);
 
-  --border: rgba(255,255,255,0.06);
-  --input: rgba(255,255,255,0.03);
-  --input-background: rgba(255,255,255,0.02);
-  --switch-background: rgba(255,255,255,0.04);
+  --border: var(--border-light);
+  --input: var(--white);
+  --input-background: var(--white);
+  --switch-background: #BCCCDC;
   --font-weight-medium: 600;
   --font-weight-normal: 400;
-  --ring: rgba(124,247,225,0.25);
+  --ring: rgba(0, 87, 168, 0.25);
 
   /* Wheel / chart segment colors */
-  --chart-1: #ffd166; /* warm gold */
-  --chart-2: #7cf7e1; /* teal */
-  --chart-3: #8bd3ff; /* light blue */
-  --chart-4: #ff7ab6; /* pink */
-  --chart-5: #9ef07a; /* lime */
+  --chart-1: var(--police-blue);
+  --chart-2: var(--white);
+  --chart-3: var(--police-blue);
+  --chart-4: var(--white);
+  --chart-5: var(--police-blue);
 
   --radius: 0.75rem;
 
@@ -51,40 +64,38 @@
 }
 
 .dark {
-  --background: #041022;
-  --foreground: #e8f6ff;
-  --card: rgba(255,255,255,0.02);
-  --card-foreground: #e8f6ff;
-  --popover: rgba(6,12,22,0.9);
-  --popover-foreground: #e8f6ff;
-  --primary: #ffd166;
-  --primary-foreground: #041022;
-  --secondary: #5ef0c9;
-  --secondary-foreground: #041022;
-  --muted: #071126;
-  --muted-foreground: #8fb8c6;
-  --accent: #ff4d8b;
-  --accent-foreground: #041022;
-  --destructive: #ff6b7a;
-  --destructive-foreground: #041022;
-  --border: rgba(255,255,255,0.03);
-  --input: rgba(255,255,255,0.02);
-  --ring: rgba(255,184,77,0.18);
-  --font-weight-medium: 600;
-  --font-weight-normal: 400;
-  --chart-1: #ffd166;
-  --chart-2: #7cf7e1;
-  --chart-3: #8bd3ff;
-  --chart-4: #ff7ab6;
-  --chart-5: #9ef07a;
-  --sidebar: #041022;
-  --sidebar-foreground: #d6f6ff;
-  --sidebar-primary: #0b2036;
-  --sidebar-primary-foreground: #e8f6ff;
-  --sidebar-accent: #062033;
-  --sidebar-accent-foreground: #9fdbe7;
-  --sidebar-border: rgba(255,255,255,0.02);
-  --sidebar-ring: rgba(255,184,77,0.12);
+  --background: var(--police-blue-dark);
+  --foreground: var(--white);
+  --card: var(--white);
+  --card-foreground: var(--text-dark);
+  --popover: var(--white);
+  --popover-foreground: var(--text-dark);
+  --primary: var(--police-blue);
+  --primary-foreground: var(--white);
+  --secondary: var(--police-green);
+  --secondary-foreground: var(--white);
+  --muted: var(--police-blue-light);
+  --muted-foreground: #486581;
+  --accent: var(--police-green);
+  --accent-foreground: var(--white);
+  --destructive: var(--correct-red);
+  --destructive-foreground: var(--white);
+  --border: var(--border-light);
+  --input: var(--white);
+  --ring: rgba(0, 87, 168, 0.25);
+  --chart-1: var(--police-blue);
+  --chart-2: var(--white);
+  --chart-3: var(--police-blue);
+  --chart-4: var(--white);
+  --chart-5: var(--police-blue);
+  --sidebar: var(--police-blue-dark);
+  --sidebar-foreground: var(--white);
+  --sidebar-primary: var(--police-blue);
+  --sidebar-primary-foreground: var(--white);
+  --sidebar-accent: var(--police-green);
+  --sidebar-accent-foreground: var(--white);
+  --sidebar-border: var(--border-light);
+  --sidebar-ring: rgba(0, 87, 168, 0.2);
 }
 
 @theme inline {
