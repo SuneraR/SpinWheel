@@ -40,7 +40,7 @@ const MAX_SPINS = 2;
 
 // Terminal states distinguish failing the first chance from failing the
 // second, while the win route is reserved for two fully correct chances.
-type GameState = 'spinning' | 'question' | 'correct' | 'wrong' | 'gameOver' | 'niceTry';
+type GameState = 'spinning' | 'question' | 'correct' | 'gameOver' | 'niceTry';
 
 export default function Game() {
   const navigate = useNavigate();
@@ -126,7 +126,7 @@ export default function Game() {
         wrongSoundRef.current.play().catch(() => {});
       }
       setWrongAnswers((prev) => prev + 1);
-      window.setTimeout(() => setGameState('wrong'), 1000);
+      window.setTimeout(() => setGameState(spinCount < MAX_SPINS ? 'gameOver' : 'niceTry'), 1000);
     }
   };
 
@@ -146,20 +146,6 @@ export default function Game() {
   };
 
   const handleContinue = () => {
-    const wasWrong = gameState === 'wrong';
-
-    // A wrong answer on the very first spin ends the turn immediately with
-    // no Win screen - the player never earned a second chance.
-    if (wasWrong && spinCount < MAX_SPINS) {
-      setGameState('gameOver');
-      return;
-    }
-
-    if (wasWrong && spinCount >= MAX_SPINS) {
-      setGameState('niceTry');
-      return;
-    }
-
     // Correct answer from here on.
     const nextQuestionIndex = currentQuestionIndex + 1;
 
@@ -291,23 +277,6 @@ export default function Game() {
         </div>
       </Modal>
 
-      <Modal isOpen={gameState === 'wrong'}>
-        <div className="text-center space-y-4">
-          <XCircle className="w-16 h-16 md:w-20 md:h-20 xl:w-28 xl:h-28 2xl:w-32 2xl:h-32 text-red-500 mx-auto" />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-bold text-[#003A70] mb-2">Not Quite!</h2>
-          <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">Your turn ends here.</p>
-          <button
-            onClick={handleContinue}
-            className="w-full bg-[#0057A8] text-white rounded-xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-[#003A70] transition-colors"
-          >
-            Continue
-          </button>
-        </div>
-      </Modal>
-
-      {/* Shown once the player's turn is fully over - either a wrong answer
-          ended it early, or they completed the bonus spin. No button here;
-          the page reloads automatically after a short delay. */}
       <Modal isOpen={gameState === 'gameOver' || gameState === 'niceTry'}>
         <div className="text-center space-y-3">
           <XCircle className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#6B7C93] mx-auto" />
