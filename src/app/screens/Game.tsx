@@ -125,14 +125,14 @@ export default function Game() {
         correctSoundRef.current.play().catch(() => {});
       }
       setCorrectAnswers((prev) => prev + 1);
-      window.setTimeout(() => setGameState('correct'), 1000);
+      window.setTimeout(() => setGameState('correct'), 1300);
     } else {
       if (wrongSoundRef.current) {
         wrongSoundRef.current.currentTime = 0;
         wrongSoundRef.current.play().catch(() => {});
       }
       setWrongAnswers((prev) => prev + 1);
-      window.setTimeout(() => setGameState(spinCount < MAX_SPINS ? 'gameOver' : 'niceTry'), 1000);
+      window.setTimeout(() => setGameState(spinCount < MAX_SPINS ? 'gameOver' : 'niceTry'), 1300);
     }
   };
 

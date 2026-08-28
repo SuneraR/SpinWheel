@@ -19,8 +19,7 @@ type SinhalaQuestion = {
 const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   1: [
     {
-      question:
-        "ඔබ නිවසින් පිටව යන විට ප්‍රධාන දොරටුවේ යතුර තබා යා යුත්තේ කොහේද?",
+      question: "ඔබ නිවසින් පිටව යන විට ප්‍රධාන දොරටුවේ යතුර තබා යා යුත්තේ කොහේද?",
       answers: [
         "පාපිස්ස යට",
         "මල් පෝච්චිය යට",
@@ -30,16 +29,20 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 2,
     },
     {
-      question:
-        "පවුලේ සාමාජිකයින් විනෝද ගමනක් ගිය පසු ලබාගත් පවුලේ ඡායාරූප සමාජ මාධ්‍යයට එක් කරන්නේ නම් එය කළ යුතු වේලාව කුමක්ද?",
-      answers: ["එවෙලේම", "පසු දින", "නිවසට පැමිණි පසු", "පැමිණෙන අතරතුර"],
+      question: "පවුලේ සාමාජිකයින් විනෝද ගමනක් ගිය පසු ලබාගත් පවුලේ ඡායාරූප සමාජ මාධ්‍යට එක් කරන්නේ නම් එය කළ යුතු වේලාව කුමක්ද?",
+      answers: [
+        "එවෙලේම",
+        "පසු දින",
+        "නිවසට පැමිණි පසු",
+        "පැමිණෙන අතරතුර",
+      ],
       correct: 2,
     },
     {
-      question: "ඔබගේ වාහනයේ යතුර තැබිය යුතු සුදුසුම ස්ථානය කුමක්ද?",
+      question: "ඔබගේ වාහනයේ යතුර තැබිය යුතු සුදුසුම ස්ථානය  කුමක්ද?",
       answers: [
-        "නිවැසියන් පමණක් දන්නා ස්ථානයක",
-        "නිවසේ යතුරු රඳවනයේ",
+        "නිවැසියන්  පමණක් දන්නා ස්ථානයක",
+        "නිවසේ යතුරු  රඳවනයේ",
         "යතුරු කටේ",
         "කලිසම් සාක්කුව තුළ",
       ],
@@ -48,23 +51,31 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   2: [
     {
-      question:
-        "නිවසේ ඇති අලවංගු/ ගල්ඉනි/ ඉනිමං ආදිය තැබිය යුතු සුදුසුම ස්ථානය කුමක්ද?",
-      answers: ["කෑම කාමරයේ", "ගබඩා කාමරයේ", "එළිමහනේ", "සාලයේ"],
+      question: "නිවසේ ඇති අලවංගු/ ගල්ඉනි/ ඉනිමං ආදිය තැබිය යුතු සුදුසුම ස්ථානය කුමක්ද?",
+      answers: [
+        "කෑම කාමරයේ",
+        "ගබඩා කාමරයේ",
+        "එළිමහනේ",
+        "සාලයේ",
+      ],
       correct: 1,
     },
     {
       question: "CCTV සවිකිරීමේදී සැලකිලිමත් විය යුතු මූලිකම කරුණ කුමක්ද?",
-      answers: ["මිල", "හැඩය", "වීඩියෝවල ගුණාත්මකභාවය", "අලෙවියෙන් පසු සේවාව"],
+      answers: [
+        "මිල",
+        "හැඩය",
+        "වීඩියෝවල ගුණාත්මකභාවය",
+        "අලෙවියෙන් පසු සේවාව",
+      ],
       correct: 2,
     },
     {
-      question:
-        "කුලී ගමනක් යාම සඳහා රථයක් වෙන්කර ගැනීමේදී වඩාත් ආරක්ෂිත වන්නේ කුමක්ද?",
+      question: "කුලී ගමනක් යාම සඳහා රථයක් වෙන්කර ගැනීමේදී වඩාත් ආරක්ෂිත වන්නේ කුමක්ද?",
       answers: [
         "ඕනෑම ත්‍රිරෝද රථයක්",
         "මීටර් ත්‍රිරෝද රථයක්",
-        "දන්නා හඳුනන හෝ ලියාපදිංචි ආයතනයක ත්‍රිරෝද රථයක්",
+        "දන්නා  හඳුනන හෝ ලියාපදිංචි ආයතනයක ත්‍රිරෝද රථයක්",
         "සුඛෝපභෝගී රථයක්",
       ],
       correct: 2,
@@ -72,8 +83,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   3: [
     {
-      question:
-        "කුලී රථයක් Online වෙන්කර ගත් පසු ජංගම දුරකථනයට ලැබෙන කෙටි පණිවුඩය අනුව රථයේ ලියාපදිංචි අංකය සනාථ කරගත යුතු අවස්ථාව කුමක්ද?",
+      question: "කුලී රථයක් Online වෙන්කර ගත් පසු ජංගම දුරකථනයට ලැබෙන කෙටි  පණිවුඩය අනුව  රථයේ ලියාපදිංචි අංකය සනාථ කරගත යුතු අවස්ථාව කුමක්ද?",
       answers: [
         "කුලී රථයට නැගීමට පෙර",
         "කුලී රථයේ ගමන් කරන විට",
@@ -83,8 +93,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 0,
     },
     {
-      question:
-        "කුලී රථයක යන ගමනකදී රැගෙන යන වටිනා දෑ පිළිබඳ අවධානයෙන් සිටිය යුත්තේ කවුද?",
+      question: "කුලී රථයක යන ගමනකදී රැගෙන යන වටිනා දෑ  පිළිබඳ අවධානයෙන් සිටිය යුත්තේ  කවුද?",
       answers: [
         "රථයේ රියදුරු",
         "රථයේ හිමිකරු/ සමාගම",
@@ -106,8 +115,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   4: [
     {
-      question:
-        "2026-09-03 දිනට යෙදී ඇත්තේ ශ්‍රී ලංකා පොලීසියේ කීවැනි සංවත්සරයද?",
+      question: "2026-09-03 දිනට යෙදී ඇත්තේ ශ්‍රී ලංකා පොලීසියේ කීවෙනි සංවත්සරයද?",
       answers: [
         "150 වන සංවත්සරය",
         "160 වන සංවත්සරය",
@@ -118,20 +126,28 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
     },
     {
       question: "රක්ෂණ සහතිකයක් නොමැතිව රිය ධාවනය කිරීමේ වරදට අදාළ දඩය කොපමණද?",
-      answers: ["රු.25000 කි", "රු.20000 කි", "රු.2500 කි", "රු.15000 කි"],
+      answers: [
+        "රු.25000 කි",
+        "රු.20000 කි",
+        "රු.2500 කි",
+        "රු.15000 කි",
+      ],
       correct: 0,
     },
     {
-      question:
-        "ආරක්ෂිත හිස්වැසුමක් මිලදී ගැනීමේදී සැලකිය යුතු මූලික කරුණ කුමක්ද?",
-      answers: ["වර්ණය", "මිල", "SLS සහතිකය ඇතිද යන වග", "හැඩය"],
+      question: "ආරක්ෂිත හිස්වැසුමක් මිලදී ගැනීමේදී සැලකිය යුතු  මූලික කරුණ කුමක්ද?",
+      answers: [
+        "වර්ණය",
+        "මිල",
+        "SLS සහතිකය ඇතිද යන වග",
+        "හැඩය",
+      ],
       correct: 2,
     },
   ],
   5: [
     {
-      question:
-        "රියදුරු බලපත්‍රයක් නොමැතිව වාහනයක් ධාවනය කිරීමේ වරදට අදාළ දඩය කොපමණද?",
+      question: "රියදුරු බලපත්‍රයක් නොමැතිව වාහනයක් ධාවනය කිරීමේ වරදට අදාළ දඩය කොපමණද?",
       answers: [
         "රිය පැදවූ අයට රු. 25000 කි",
         "රථයේ හිමිකරුට රු. 25000 කි",
@@ -152,7 +168,12 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
     },
     {
       question: "ප්‍රජා පොලිස්කරණයේ මූලික වගකීම පැවරෙන්නේ කවුරුන් කෙරෙහිද?",
-      answers: ["මහජනතාවට", "පොලිසියට", "රජයට", "මහජනතාවට හා පොලිසියට"],
+      answers: [
+        "මහජනතාවට",
+        "පොලිසියට",
+        "රජයට",
+        "මහජනතාවට හා පොලිසියට",
+      ],
       correct: 3,
     },
   ],
@@ -168,8 +189,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 1,
     },
     {
-      question:
-        "මාර්ගයක ධාවනය වන වාහනයක් නතර කිරීමට නිල ඇඳුමෙන් සිටිය යුතු අවම පොලිස් නිලධාරීන් සංඛ්‍යාව කොපමණද?",
+      question: "මාර්ගයක ධාවනය වන වාහනයක් නතර කිරීමට නිල ඇඳුමෙන් සිටිය යුතු අවම පොලිස් නිලධාරීන් සංඛ්‍යාව කොපමණද?",
       answers: [
         "රථවාහන පොලිසියේ දෙදෙනකු සිටිය යුතුය",
         "ඕනෑම පොලිස් නිලධාරීන් දෙදෙනකු සිටිය යුතුය",
@@ -183,7 +203,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       answers: [
         "සුදු හෝ පරාවර්තන ඇඳුමක්",
         "කළු ඇඳුමක්",
-        "සුදු කළු මිශ්‍ර ඇඳුමක්",
+        "සුදු කළු මිශ්‍ර  ඇඳුමක්",
         "වර්ණ කිහිපයක ඇඳුමක්",
       ],
       correct: 0,
@@ -191,8 +211,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   7: [
     {
-      question:
-        "යතුරුපැදියක ගමන් කරන විට ආරක්ෂිත හිස්වැසුමක් පැළඳිය යුත්තේ ඇයි?",
+      question: "යතුරුපැදියක ගමන් කරන විට ආරක්ෂිත හිස්වැසුමක් පැළඳිය යුත්තේ ඇයි?",
       answers: [
         "පොලීසිය දඩ ගසන නිසා",
         "අනතුරකදී හිසේ ආරක්ෂාව සඳහා",
@@ -212,7 +231,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 0,
     },
     {
-      question: "ශ්‍රී ලංකාවේ උත්තරීතරම අධිකරණය කුමක්ද?",
+      question: "ශ්‍රී ලංකාවේ  උත්තරීතරම අධිකරණය කුමක්ද?",
       answers: [
         "ශ්‍රේෂ්ඨාධිකරණය",
         "මහාධිකරණය",
@@ -224,19 +243,17 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   8: [
     {
-      question:
-        "වයස අවුරුදු 16 ට අඩු ගැහැනු දරුවෙකු සමග සිදු කරන ලිංගික සංසර්ගය හැඳින්වෙන වරද කුමක්ද?",
+      question: "වයස අවුරුදු 16 ට අඩු ගැහැණු දරුවෙකු සමග සිදු කරන ලිංගික සංසර්ගය හැඳින්වෙන වරද කුමක්ද?",
       answers: [
         "ලිංගික අපචාර",
         "ලිංගික අපයෝජන",
-        "ව්‍යවස්ථාපිත ස්ත්‍රී දූෂණය",
+        "ව්‍යවස්ථාපිත ස්ත්‍රි දූෂණය",
         "අස්වාභාවික වැරදි",
       ],
       correct: 2,
     },
     {
-      question:
-        "ශ්‍රී ලංකාවේ නීතිය අනුව මනුෂ්‍ය ඝාතනයක් සිදුකළ පුද්ගලයකුට ලබාදිය හැකි දඬුවම කුමක්ද?",
+      question: "ශ්‍රී ලංකාවේ නීතිය අනුව මනුෂ්‍ය ඝාතනයක් සිදුකළ පුද්ගලයකුට ලබාදිය හැකි දඬුවම කුමක්ද?",
       answers: [
         "ජීවිතාන්තය දක්වා සිර දඬුවම්",
         "වසර 20 ක සිර දඬුවම්",
@@ -246,12 +263,11 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 2,
     },
     {
-      question:
-        "පුද්ගල ඝාතනයක් සිදුව ඇති ස්ථානයක සිටින මහජනතාව සතු මූලික වගකීම කුමක්ද?",
+      question: "පුද්ගල ඝාතනයක් සිදුව ඇති ස්ථානයක  සිටින මහජනතාව සතු මූලික වගකීම කුමක්ද?",
       answers: [
         "අපරාධ ස්ථානය සෝදා හැරීම",
-        "අපරාධ ස්ථානය අසලටම ගොස් බලා සිටීම",
-        "ආරක්ෂක අංශ පැමිණෙන තුරු කිසිවකුට අපරාධ ස්ථානයට ඇතුල්වීමට ඉඩ නොදී ආරක්ෂා කිරීම",
+        "අපරාධ ස්ථානය අසලටම ගොස් බලා සිටිම",
+        "ආරක්ෂක අංශ පැමිනෙන තුරු කිසිවකුට අපරාධ ස්ථානයට ඇතුල්වීමට ඉඩ නොදී ආරක්ෂා කිරීම",
         "අපරාධ ස්ථානයේ ඡායාරූප ගැනීම",
       ],
       correct: 2,
@@ -259,24 +275,27 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   9: [
     {
-      question: "පොලිස් හදිසි ඇමතුම් අංකය කුමක්ද?",
-      answers: ["119", "1990", "110", "1929"],
-      correct: 0,
-    },
-    {
-      question:
-        "සාමාන්‍ය පුද්ගලයකු විසින් යම් පුද්ගලයකු භාරයට ගත් විගස කළ යුතු කාර්යය කුමක්ද?",
+      question: "පොලිස් හදිසි ඇමතුම්  අංකය කුමක්ද?",
       answers: [
-        "ළඟම පොලිසියට භාර දීම",
-        "ආසන්නයේම සිටින පොලිස් නිලධාරියාට භාර දීම",
-        "සහකාර පොලිස් අධිකාරීවරයාට භාර දීම",
-        "ඔහුව මෙල්ල කර ගැනීම සඳහා පහරදීම",
+        "119",
+        "1990",
+        "110",
+        "1929",
       ],
       correct: 0,
     },
     {
-      question:
-        "පොලිස් ආඥා පනතේ 76 වගන්තිය අනුව තොරතුරු ඉල්ලා සිටින අවස්ථාවකදී පදිංචිකරුවන් පිළිබඳ තොරතුරු ලබාදිය යුත්තේ කා හටද?",
+      question: "සාමාන්‍ය පුද්ගලයකු විසින් යම් පුද්ගලයකු භාරයට ගත් විගස කළ යුතු කාර්ය කුමක්ද?",
+      answers: [
+        "ළඟම පොලිසියට භාර දීම",
+        "ආසන්නයේම සිටින පොලිස් නිලධාරියාට භාර දීම",
+        "සහකාර පොලිස් අධිකාරීවරයාට බාර දීම",
+        "ඔහුව මෙල්ල කර ගැනීම සඳහා පහරදීම",
+      ],
+      correct: 1,
+    },
+    {
+      question: "පොලිස් ආඥා පනතේ 76 වගන්තිය අනුව තොරතුරු ඉල්ලා සිටින අවස්ථාවකදි පදිංචිකරුවන්  පිළිබඳ තොරතුරු ලබාදිය යුත්තේ කා හටද?",
       answers: [
         "ග්‍රාම නිලධාරිවරයාට",
         "සමෘද්ධි නිලධාරියාට",
@@ -288,32 +307,34 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   10: [
     {
-      question:
-        "පදික මාරුවක් මතින් මාර්ගය හරහා ගමන් කරන පදිකයෙකු දැකීමේදී අනතුරක් වළක්වා ගැනීම සඳහා රියදුරෙකු කළ යුත්තේ කුමක්ද?",
+      question: "වසා දමා තිබූ නිවසක ජනේලයෙන් ඇතුළු වූ සොරෙකු එහි තිබූ භාණ්ඩ රැගෙනයාම හඳුන්වන වරද කුමක්ද?",
       answers: [
-        "වාහනයේ වේගය වැඩිකර ඉක්මනින් ගමන් කිරීම",
-        "වාහනය නවත්වා පදිකයාට ගමන් කිරීමට ඉඩ දීම",
-        "නලා හඬ නංවා පදිකයාට අනතුරු ඇඟවීම",
-        "ප්‍රධාන විදුලි පහන් දල්වා අනතුරු ඇඟවීම",
+        "සොරකම",
+        "ගෙවල් බිඳීම",
+        "කොල්ලකෑම",
+        "මහජන සාමය කඩ කිරීම",
       ],
       correct: 1,
     },
     {
-      question:
-        "හදිසි ගින්නක් ඇති වූ විට දැනුම් දීම සඳහා ඇමතිය යුතු ගිනි නිවන සේවයේ දුරකථන අංකය කුමක්ද?",
-      answers: ["119", "1990", "110", "117"],
+      question: "පලායන සැකකරුවෙකු අත්අඩංගුවට ගැනීම සඳහා පොලිසිය සහාය ඉල්ලා සිටින විට කළ යුත්තේ කුමක් ද?",
+      answers: [
+        "ප්‍රතික්ෂේප කල යුතුය",
+        "සහය දිය යුතුය",
+        "මගහැර යා යුතුය",
+        "පහර දිය යුතුය",
+      ],
+      correct: 1,
+    },
+    {
+      question: "කාන්තාවක් අත්අඩංගුවට ගැනීම සඳහා සිටිය යුතු අවම පොලිස් නිලධාරීන් කොපමණද?",
+      answers: [
+        "කාන්තා නිලධාරිනියක් අනිවාර්යයෙන් සිටිය යුතුය",
+        "කාන්තා සහ පිරිමි නිලධාරියකු සිටිය යුතුය",
+        "පිරිමි නිලධාරියකුට හැකිය",
+        "පොලිස් ස්ථානාධිපතිවරයා සිටිය යුතුය",
+      ],
       correct: 2,
-    },
-    {
-      question:
-        "ඔබගේ බැංකු ගිණුම් විස්තර හෝ රහස්‍ය අංක (OTP) නාඳුනන අයෙකු දුරකථනයෙන් ඉල්ලා සිටින විට ඔබ කුමක් කළ යුතුද?",
-      answers: [
-        "අදාළ තොරතුරු ලබා දීම",
-        "කිසිදු තොරතුරක් ලබා නොදී දුරකථන ඇමතුම විසන්ධි කිරීම",
-        "මිතුරෙකුගෙන් අසා තොරතුරු ලබා දීම",
-        "වෙනත් අයෙකුගේ ගිණුම් අංකයක් ලබා දීම",
-      ],
-      correct: 1,
     },
   ],
 };
@@ -321,8 +342,7 @@ const SINHALA_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
 const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   1: [
     {
-      question:
-        "Where should you leave the key to the main door when leaving home?",
+      question: "Where should you leave the key to the main door when leaving home?",
       answers: [
         "Under the doormat",
         "Under a flower pot",
@@ -332,20 +352,19 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 2,
     },
     {
-      question:
-        "When should family photographs taken during a trip be posted on social media?",
+      question: "If family photographs taken during a recreational trip are posted on social media, when should they be posted?",
       answers: [
         "Immediately",
         "The next day",
         "After returning home",
-        "While travelling home",
+        "While returning home",
       ],
       correct: 2,
     },
     {
       question: "What is the most suitable place to keep your vehicle key?",
       answers: [
-        "A place known only to household members",
+        "In a place known only to household members",
         "On the key holder at home",
         "In the ignition",
         "Inside a trouser pocket",
@@ -355,8 +374,7 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   2: [
     {
-      question:
-        "Where is the most suitable place to keep crowbars, pickaxes, ladders and similar items at home?",
+      question: "Where is the most suitable place to keep crowbars, pickaxes, ladders and similar items at home?",
       answers: [
         "In the dining room",
         "In the storage room",
@@ -366,13 +384,17 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 1,
     },
     {
-      question:
-        "What is the most important consideration when installing CCTV?",
-      answers: ["Price", "Shape", "Video quality", "After-sales service"],
+      question: "What is the most important consideration when installing CCTV?",
+      answers: [
+        "Price",
+        "Shape",
+        "Video quality",
+        "After-sales service",
+      ],
       correct: 2,
     },
     {
-      question: "What is safest when booking a vehicle for a hired journey?",
+      question: "What is the safest option when booking a vehicle for a hired journey?",
       answers: [
         "Any three-wheeler",
         "A metered three-wheeler",
@@ -384,29 +406,27 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   3: [
     {
-      question:
-        "When should you verify a hired vehicle registration number from the SMS received after booking it online?",
+      question: "After booking a hired vehicle online, when should you verify the vehicle registration number using the SMS received on your mobile phone?",
       answers: [
-        "Before getting into the vehicle",
-        "While travelling in the vehicle",
+        "Before getting into the hired vehicle",
+        "While travelling in the hired vehicle",
         "At the end of the journey",
         "There is no need to verify it",
       ],
       correct: 0,
     },
     {
-      question:
-        "Who should pay attention to the valuables carried during a hired vehicle journey?",
+      question: "Who should be responsible for paying attention to valuables carried during a hired vehicle journey?",
       answers: [
         "The driver",
-        "The vehicle owner or company",
+        "The vehicle owner/company",
         "The owner of the items",
         "The police",
       ],
       correct: 2,
     },
     {
-      question: "Who is known as the father of the community policing concept?",
+      question: "Who is the father of the community policing concept?",
       answers: [
         "Sir Robert Peel",
         "Edward Barnes",
@@ -418,8 +438,7 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   4: [
     {
-      question:
-        "Which anniversary of the Sri Lanka Police falls on 2026-09-03?",
+      question: "Which anniversary of the Sri Lanka Police falls on 2026-09-03?",
       answers: [
         "150th anniversary",
         "160th anniversary",
@@ -429,14 +448,17 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 1,
     },
     {
-      question:
-        "What is the fine for driving without an insurance certificate?",
-      answers: ["Rs. 25,000", "Rs. 20,000", "Rs. 2,500", "Rs. 15,000"],
+      question: "What is the fine for driving without an insurance certificate?",
+      answers: [
+        "Rs. 25,000",
+        "Rs. 20,000",
+        "Rs. 2,500",
+        "Rs. 15,000",
+      ],
       correct: 0,
     },
     {
-      question:
-        "What is the primary factor to consider when buying a safety helmet?",
+      question: "What is the primary factor to consider when buying a safety helmet?",
       answers: [
         "Colour",
         "Price",
@@ -448,18 +470,17 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   5: [
     {
-      question:
-        "What is the fine for driving a vehicle without a driving licence?",
+      question: "What is the fine for driving a vehicle without a driving licence?",
       answers: [
         "Rs. 25,000 for the driver",
         "Rs. 25,000 for the vehicle owner",
-        "Rs. 25,000 for the driver and Rs. 25,000 for the owner, totalling Rs. 50,000",
-        "Rs. 20,000 for the driver and Rs. 25,000 for the owner, totalling Rs. 45,000",
+        "Rs. 25,000 for the driver and Rs. 25,000 for the vehicle owner, totalling Rs. 50,000",
+        "Rs. 20,000 for the driver and Rs. 25,000 for the vehicle owner, totalling Rs. 45,000",
       ],
       correct: 2,
     },
     {
-      question: "What subject scientifically studies crime?",
+      question: "Which field scientifically studies crime?",
       answers: [
         "Criminal law",
         "Forensic science",
@@ -469,8 +490,7 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 2,
     },
     {
-      question:
-        "To whom does the primary responsibility of community policing belong?",
+      question: "On whom does the primary responsibility for community policing rest?",
       answers: [
         "The public",
         "The police",
@@ -492,42 +512,39 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 1,
     },
     {
-      question:
-        "What is the minimum number of uniformed police officers required to stop a vehicle travelling on a road?",
+      question: "What is the minimum number of uniformed police officers required to stop a vehicle travelling on a road?",
       answers: [
         "Two traffic police officers",
         "Any two police officers",
         "Even one police officer can do so",
-        "The Traffic Police OIC",
+        "The Traffic Police OIC must be present",
       ],
       correct: 2,
     },
     {
-      question:
-        "What is the most suitable clothing for riding a bicycle at night?",
+      question: "What is the most suitable clothing for riding a bicycle at night?",
       answers: [
         "White or reflective clothing",
         "Black clothing",
         "Black-and-white clothing",
-        "Multi-coloured clothing",
+        "Clothing with several colours",
       ],
       correct: 0,
     },
   ],
   7: [
     {
-      question:
-        "Why should you wear a safety helmet when travelling on a motorcycle?",
+      question: "Why should you wear a safety helmet when travelling on a motorcycle?",
       answers: [
         "Because the police issue fines",
         "To protect the head in an accident",
-        "To prevent dust from reaching the head",
+        "Because dust can get on the head",
         "For appearance",
       ],
       correct: 1,
     },
     {
-      question: "Which document refers to fundamental rights?",
+      question: "Which document mentions fundamental rights?",
       answers: [
         "The Constitution",
         "The Code of Criminal Procedure",
@@ -549,8 +566,7 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   8: [
     {
-      question:
-        "What offence is sexual intercourse with a girl under 16 years of age called?",
+      question: "What offence is sexual intercourse with a girl under 16 years of age called?",
       answers: [
         "Sexual misconduct",
         "Sexual abuse",
@@ -560,23 +576,21 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
       correct: 2,
     },
     {
-      question:
-        "According to Sri Lankan law, what punishment may be given to a person who commits murder?",
+      question: "According to Sri Lankan law, what punishment may be given to a person who commits murder?",
       answers: [
         "Life imprisonment",
-        "Twenty years imprisonment",
+        "Twenty years' imprisonment",
         "The death penalty",
         "Community service",
       ],
       correct: 2,
     },
     {
-      question:
-        "What is the main responsibility of the public at a scene where a murder has occurred?",
+      question: "What is the main responsibility of the public at a location where a person has been killed?",
       answers: [
         "Wash the crime scene",
-        "Stand close to and observe the scene",
-        "Protect the scene by preventing entry until security personnel arrive",
+        "Go close to the crime scene and watch",
+        "Protect the crime scene by preventing anyone from entering until security personnel arrive",
         "Take photographs of the crime scene",
       ],
       correct: 2,
@@ -585,23 +599,26 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   9: [
     {
       question: "What is the police emergency telephone number?",
-      answers: ["119", "1990", "110", "1929"],
-      correct: 0,
-    },
-    {
-      question:
-        "What should an ordinary person do immediately after taking a person into custody?",
       answers: [
-        "Hand the person over to the nearest police station",
-        "Hand the person over to the nearest police officer",
-        "Hand the person over to the Assistant Superintendent of Police",
-        "Strike the person to restrain them",
+        "119",
+        "1990",
+        "110",
+        "1929",
       ],
       correct: 0,
     },
     {
-      question:
-        "Under Section 76 of the Police Ordinance, to whom should residents provide information when it is requested?",
+      question: "What should an ordinary person do immediately after taking someone into custody?",
+      answers: [
+        "Hand the person over to the nearest police station",
+        "Hand the person over to the nearest police officer",
+        "Hand the person over to the Assistant Superintendent of Police",
+        "Strike the person in order to restrain them",
+      ],
+      correct: 1,
+    },
+    {
+      question: "Under Section 76 of the Police Ordinance, to whom should information about residents be provided when it is requested?",
       answers: [
         "The Grama Niladhari",
         "The Samurdhi officer",
@@ -613,32 +630,34 @@ const ENGLISH_QUESTIONS_BY_SEGMENT: Record<number, SinhalaQuestion[]> = {
   ],
   10: [
     {
-      question:
-        "What should a driver do to prevent an accident when seeing a pedestrian crossing the road at a pedestrian crossing?",
+      question: "What is the offence called when a thief enters a closed house through a window and takes away the goods inside?",
       answers: [
-        "Increase speed and pass quickly",
-        "Stop the vehicle and allow the pedestrian to cross",
-        "Sound the horn to warn the pedestrian",
-        "Turn on the headlights to warn the pedestrian",
+        "Theft",
+        "Housebreaking",
+        "Robbery",
+        "Breach of public peace",
       ],
       correct: 1,
     },
     {
-      question:
-        "Which fire service telephone number should be called to report an emergency fire?",
-      answers: ["119", "1990", "110", "117"],
+      question: "What should you do when the police ask for assistance to arrest a fleeing suspect?",
+      answers: [
+        "Refuse",
+        "Provide assistance",
+        "Avoid the situation",
+        "Assault the suspect",
+      ],
+      correct: 1,
+    },
+    {
+      question: "What is the minimum police-officer requirement for arresting a woman?",
+      answers: [
+        "A female officer must be present",
+        "A female and a male officer must be present",
+        "A male officer can do so",
+        "The Officer-in-Charge of the police station must be present",
+      ],
       correct: 2,
-    },
-    {
-      question:
-        "What should you do when an unknown person asks by telephone for your bank details or confidential numbers such as an OTP?",
-      answers: [
-        "Provide the requested information",
-        "Disconnect the call without providing any information",
-        "Ask a friend and provide the information",
-        "Give another person’s account number",
-      ],
-      correct: 1,
     },
   ],
 };
@@ -651,6 +670,7 @@ export const QUESTIONS_BY_SEGMENT: Record<number, Question[]> =
       questions.map((sinhalaQuestion, index) => {
         const englishQuestion =
           ENGLISH_QUESTIONS_BY_SEGMENT[Number(segment)][index];
+
         return {
           id: questionId++,
           question: {

@@ -98,7 +98,14 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
               className={`${base} ${state}`}
             >
               <span className={`${chipBase} ${chipState}`}>{String.fromCharCode(65 + index)}</span>
-              <div className="font-sinhala flex-1 break-words whitespace-normal text-left leading-relaxed">{answer}</div>
+              <div className="font-sinhala flex-1 break-words whitespace-normal text-left leading-relaxed">
+                {isCorrect && selectedAnswer !== correctAnswer && (
+                  <span className="block font-sans text-xs md:text-sm font-bold uppercase tracking-wide text-white/90">
+                    Correct Answer
+                  </span>
+                )}
+                {answer}
+              </div>
               {isCorrect && <CheckCircle className="h-6 w-6 flex-shrink-0 md:h-7 md:w-7" />}
               {isSelected && <XCircle className="h-6 w-6 flex-shrink-0 md:h-7 md:w-7" />}
             </motion.button>
