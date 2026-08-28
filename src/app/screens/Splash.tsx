@@ -50,7 +50,7 @@ export default function Splash() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-         Spin Quiz by Mt. Lavinia Police
+         Spin Quiz by Mt. Lavinia Police Division
         </motion.h1>
 
         <motion.p
