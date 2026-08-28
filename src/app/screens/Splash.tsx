@@ -50,7 +50,7 @@ export default function Splash() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5 }}
         >
-          Sri Lanka Police Spin Quiz
+         Spin Quiz by Mt. Lavinia Police
         </motion.h1>
 
         <motion.p

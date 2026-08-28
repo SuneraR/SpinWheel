@@ -13,9 +13,12 @@
   --off-white: #F7FAFC;
   --text-dark: #102A43;
   --border-light: #D8E4ED;
-  --correct-red: #D71920;
-  --correct-red-dark: #B5121B;
-  --correct-red-light: #FDEBEC;
+  --correct-green: #218653;
+  --correct-green-dark: #176B45;
+  --correct-green-light: #EAF7EF;
+  --wrong-red: #D71920;
+  --wrong-red-dark: #B5121B;
+  --wrong-red-light: #FDEBEC;
   --background: var(--police-blue-dark);
   --foreground: var(--white);
   --card: var(--white);
@@ -32,7 +35,7 @@
   --muted-foreground: #486581;
   --accent: var(--police-green);
   --accent-foreground: var(--white);
-  --destructive: var(--correct-red);
+  --destructive: var(--wrong-red);
   --destructive-foreground: var(--white);
 
   --border: var(--border-light);
@@ -78,7 +81,7 @@
   --muted-foreground: #486581;
   --accent: var(--police-green);
   --accent-foreground: var(--white);
-  --destructive: var(--correct-red);
+  --destructive: var(--wrong-red);
   --destructive-foreground: var(--white);
   --border: var(--border-light);
   --input: var(--white);

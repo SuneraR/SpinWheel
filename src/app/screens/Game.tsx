@@ -210,11 +210,11 @@ export default function Game() {
               </div>
               <div className="flex items-center gap-3 md:gap-4 lg:gap-5">
                 <div className="flex items-center gap-1">
-                  <CheckCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-[#D71920]" />
+                  <CheckCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-[#218653]" />
                   <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{correctAnswers}</span>
                 </div>
                 <div className="flex items-center gap-1">
-                  <XCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-[#BCCCDC]" />
+                  <XCircle className="w-5 h-5 xl:w-7 xl:h-7 2xl:w-8 2xl:h-8 text-[#D71920]" />
                   <span className="text-white font-bold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl">{wrongAnswers}</span>
                 </div>
               </div>
@@ -293,8 +293,8 @@ export default function Game() {
 
       <Modal isOpen={gameState === 'correct'}>
         <div className="text-center space-y-3">
-          <CheckCircle className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#D71920] mx-auto" />
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#D71920] mb-2">{t.correct}!</h2>
+          <CheckCircle className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#218653] mx-auto" />
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#218653] mb-2">{t.correct}!</h2>
           <button
             onClick={handleContinue}
             className="w-full bg-[#0057A8] text-white rounded-xl py-3 sm:py-3.5 md:py-4 px-5 text-base sm:text-lg md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl xl:py-5 2xl:py-6 font-bold shadow-lg hover:bg-[#003A70] transition-colors"
@@ -307,14 +307,14 @@ export default function Game() {
       <Modal isOpen={gameState === 'gameOver' || gameState === 'niceTry'}>
         <div className="text-center space-y-3">
           {gameState === 'gameOver' ? (
-            <ShieldX className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#6B7C93] mx-auto" strokeWidth={1.8} />
+            <ShieldX className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#D71920] mx-auto" strokeWidth={1.8} />
           ) : (
             <span className="relative inline-flex">
               <Shield className="w-14 h-14 md:w-16 md:h-16 xl:w-20 xl:h-20 text-[#0057A8]" strokeWidth={1.8} />
               <Star className="absolute -right-2 -top-2 h-5 w-5 md:h-6 md:w-6 text-[#218653]" fill="currentColor" />
             </span>
           )}
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-[#003A70] mb-2">
+          <h2 className={`text-2xl md:text-3xl lg:text-4xl font-bold mb-2 ${gameState === 'gameOver' ? 'text-[#D71920]' : 'text-[#003A70]'}`}>
             {gameState === 'gameOver' ? t.gameOver : t.niceTry}
           </h2>
           <p className="text-gray-600 text-base sm:text-lg md:text-lg xl:text-xl 2xl:text-2xl">

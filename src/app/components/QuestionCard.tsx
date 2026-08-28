@@ -1,3 +1,4 @@
+import { CheckCircle, XCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
 
@@ -76,15 +77,15 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
           const isSelected = revealCorrect && selectedAnswer === index && !isCorrect;
           const base = 'w-full rounded-xl py-3 md:py-4 lg:py-5 xl:py-6 2xl:py-7 px-5 md:px-6 lg:px-7 xl:px-8 2xl:px-10 text-base md:text-lg lg:text-xl xl:text-2xl 2xl:text-3xl font-semibold shadow-md transition-colors duration-200 text-left border flex items-center gap-4';
           const state = isCorrect
-            ? 'bg-[#D71920] border-[#B5121B] text-white ring-4 ring-red-200 scale-[1.02]'
+            ? 'bg-[#218653] border-[#176B45] text-white ring-4 ring-[#B8E2C8] scale-[1.02]'
             : isSelected
-              ? 'bg-slate-100 border-slate-400 text-slate-600'
+              ? 'bg-[#D71920] border-[#B5121B] text-white ring-4 ring-[#F6C5C8] scale-[1.02]'
               : 'bg-white text-[#003A70] border-[#D8E4ED] hover:bg-[#EAF4FB] hover:border-[#0057A8]';
           const chipBase = 'flex-shrink-0 inline-flex items-center justify-center w-7 h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-11 xl:h-11 2xl:w-12 2xl:h-12 rounded-full font-bold text-sm md:text-base lg:text-base xl:text-lg 2xl:text-xl';
           const chipState = isCorrect
-            ? 'bg-[#B5121B] text-white'
+            ? 'bg-[#176B45] text-white'
             : isSelected
-              ? 'bg-slate-200 text-slate-600'
+              ? 'bg-[#B5121B] text-white'
               : 'bg-[#EAF4FB] text-[#0057A8]';
 
           return (
@@ -98,6 +99,8 @@ export default function QuestionCard({ question, answers, correctAnswer, onAnswe
             >
               <span className={`${chipBase} ${chipState}`}>{String.fromCharCode(65 + index)}</span>
               <div className="font-sinhala flex-1 break-words whitespace-normal text-left leading-relaxed">{answer}</div>
+              {isCorrect && <CheckCircle className="h-6 w-6 flex-shrink-0 md:h-7 md:w-7" />}
+              {isSelected && <XCircle className="h-6 w-6 flex-shrink-0 md:h-7 md:w-7" />}
             </motion.button>
           );
         })}

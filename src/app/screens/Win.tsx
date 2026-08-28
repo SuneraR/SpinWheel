@@ -140,11 +140,11 @@ export default function Win() {
         >
           <div className="grid grid-cols-3 gap-2 md:gap-4">
             <div className="rounded-lg bg-[#EAF4FB] border border-[#D8E4ED] p-3 md:p-5">
-              <p className="text-[#D71920] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{correctAnswers}</p>
+              <p className="text-[#218653] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{correctAnswers}</p>
               <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">{t.correct}</p>
             </div>
-            <div className="rounded-lg bg-[#F7FAFC] border border-[#D8E4ED] p-3 md:p-5">
-              <p className="text-[#486581] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{wrongAnswers}</p>
+            <div className="rounded-lg bg-[#FDEBEC] border border-[#F6C5C8] p-3 md:p-5">
+              <p className="text-[#D71920] font-bold text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{wrongAnswers}</p>
               <p className="text-[#102A43] text-sm md:text-base lg:text-lg font-semibold">{t.incorrect}</p>
             </div>
             <div className="rounded-lg bg-[#EAF7EF] border border-[#8FD3B0] p-3 md:p-5">
